@@ -8,9 +8,9 @@ function Hero() {
                 A platform where developers showcase projects and raise funds
             </div>
             <div className="mt-5 flex items-center">
-                <Link href="/" className="relative inline-block font-semibold ml-7 flex-shrink-0">
-                    <span className="block rounded-md p-[1.55px]" style={{background: 'linear-gradient(to right, white, green, black, white)'}}>
-                        <span className="block rounded-md bg-gray-950 px-5 py-2 hover:text-white transition-colors duration-150 hover:bg-gray-800">
+                <Link href="/" className="relative inline-block font-semibold ml-7 flex-shrink-0 group">
+                    <span className="block rounded-md p-[1.55px] transition-all duration-300 group-hover:scale-105" style={{background: 'linear-gradient(to right, white, green, black, white)'}}>
+                        <span className="block rounded-md bg-gray-950 px-5 py-2 text-gray-200 transition-colors duration-300 group-hover:bg-gray-800 group-hover:text-white">
                             List your project
                         </span>
                     </span>
