@@ -12,10 +12,11 @@ function LandingPage() {
         <Image src="/background.svg" alt="hero-image" className="rotate-180 h-10 md:h-15 object-cover w-full" width={10} height={10}/>
       </div>
       <Hero />
-      <div className='mt-10'>
-        <Image src="/Footer.svg" alt='footer-image' className='h-10 md:h-25 object-cover w-full' width={10} height={10} /> 
+      <div className='mt-18'>
+        <Image src="/background.svg" alt="hero-image" className="h-10 md:h-15 object-cover w-full" width={10} height={10}/>
+        <Image src="/background.svg" alt="hero-image" className="rotate-180 h-10 md:h-15 object-cover w-full" width={10} height={10}/>
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }

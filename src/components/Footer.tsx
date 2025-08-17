@@ -1,7 +1,9 @@
 function Footer() {
   return (
     <div>
-      <div>Footer</div>
+      <div className="w-full min-h-screen pt-28 px-20">
+        
+      </div>
     </div>
   );
 }

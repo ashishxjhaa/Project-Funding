@@ -54,7 +54,7 @@ function Navbar() {
             </div>
             <Link href="/" className="relative hidden lg:inline-block font-semibold ml-7 flex-shrink-0 group">
                 <span className="block rounded-md lg:p-[1.55px] transition-all duration-300 group-hover:scale-105" style={{background: 'linear-gradient(to right, white, green, blue, white)'}}>
-                    <span className="block rounded-md bg-gray-950 px-5 py-2 text-gray-200 transition-colors duration-300 group-hover:bg-gray-800 group-hover:text-white">
+                    <span className="block rounded-md bg-gray-950 px-5 py-2 text-gray-200 transition-colors duration-300 group-hover:text-white">
                         Raise Fund
                     </span>
                 </span>
