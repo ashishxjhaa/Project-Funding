@@ -29,7 +29,7 @@ function Navbar() {
         <div className="flex justify-between items-center p-4 lg:p-8 h-18">
             <div className="h-20 flex justify-between items-center cursor-pointer">
                 <Image src='/logo.svg' alt="project-funding" width={45} height={45} className="md:min-w-10 md:min-h-10" />
-                <div className={`ml-2 text-3xl text-slate-100 font-semibold transition-all duration-600 ease-in-out ${isScrolled ? "lg:opacity-0 lg:w-0 lg:overflow-hidden" : "opacity-100 w-auto"}`}>ProjectFunding</div>
+                <div className={`ml-2 text-3xl text-slate-100 font-semibold transition-all duration-900 ease-in-out ${isScrolled ? "lg:opacity-0 lg:w-0 lg:overflow-hidden" : "opacity-100 w-auto"}`}>ProjectFunding</div>
             </div>
             <button className="lg:hidden text-slate-200 hover:text-slate-50 cursor-pointer" onClick={toggleMenu}>
                 {isMenuOpen ? (
