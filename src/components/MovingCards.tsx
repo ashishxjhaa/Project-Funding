@@ -33,12 +33,12 @@ export default function MovingCards() {
         {[...projects, ...projects].map((p, index) => (
           <div
             key={index}
-            className="w-52 sm:w-60 md:w-65 lg:w-65 h-40 sm:h-44 md:h-45 lg:h-45 bg-gray-500/20 border border-yellow-500/50 rounded-md p-4 flex flex-col justify-between text-white hover:scale-110 hover:-translate-y-2 transition-transform duration-300"
+            className="w-52 sm:w-60 md:w-65 lg:w-65 h-40 sm:h-44 md:h-45 lg:h-45 bg-gray-500/20 border border-white/50 rounded-md p-4 flex flex-col justify-between text-white hover:scale-110 hover:-translate-y-2 transition-transform duration-300"
           >
             <h3 className="text-md font-semibold">{p.title}</h3>
             <div className="text-blue-400 font-medium">{p.techStack}</div>
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-gray-500" />
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-user-icon lucide-user my-2 text-slate-200"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
               <span className="text-sm">{p.owner}</span>
             </div>
           </div>
