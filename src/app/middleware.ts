@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import connectDB from "@/lib/db";
+import User from "@/models/User";
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
     const token = req.cookies.get("token")?.value;
-
     const { pathname } = req.nextUrl;
+
     const protectedRoutes = ["/listing", "/dashboard"];
 
     if (protectedRoutes.some((route) => pathname.startsWith(route))) {
@@ -14,7 +16,14 @@ export function middleware(req: NextRequest) {
         }
 
         try {
-            jwt.verify(token, process.env.JWT_SECRET!);
+            const payload = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
+
+            await connectDB();
+            const user = await User.findById(payload.userId);
+            if (!user) {
+                return NextResponse.redirect(new URL("/signin", req.url));
+            } 
+
             return NextResponse.next();
         } catch (err) {
             return NextResponse.redirect(new URL("/signin", req.url));
@@ -26,7 +35,9 @@ export function middleware(req: NextRequest) {
 
 export const config = {
     matcher: [
+        "/listing",
         "/listing/:path*",
+        "/dashboard",
         "/dashboard/:path*",
     ],
 };
