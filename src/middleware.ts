@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import jwt, { JwtPayload } from "jsonwebtoken";
-import connectDB from "@/lib/db";
-import User from "@/models/User";
+import * as jose from "jose";
 
 export async function middleware(req: NextRequest) {
-    const token = req.cookies.get("token")?.value;
     const { pathname } = req.nextUrl;
+    const token = req.cookies.get("token")?.value;
 
     const protectedRoutes = ["/listing", "/dashboard"];
 
@@ -16,13 +14,8 @@ export async function middleware(req: NextRequest) {
         }
 
         try {
-            const payload = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
-
-            await connectDB();
-            const user = await User.findById(payload.userId);
-            if (!user) {
-                return NextResponse.redirect(new URL("/signin", req.url));
-            } 
+            const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
+            const { payload } = await jose.jwtVerify(token, secret);
 
             return NextResponse.next();
         } catch (err) {
@@ -35,6 +28,7 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
     matcher: [
+        "/listing",
         "/listing/:path*",
         "/dashboard/:path*",
     ],
