@@ -17,7 +17,7 @@ function Hero() {
                         </span>
                     </span>
                 </Link>
-                <div className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg text-slate-300 pl-10 text-base sm:text-lg md:text-xl leading-relaxed">A place to showcase their projects and receive support from people who believe in their ideas.</div>
+                <div className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg text-slate-300 pl-10 text-base sm:text-lg md:text-xl leading-relaxed">The place to showcase tech projects and raise fund or invest in project ideas.</div>
             </div>
             <div className="mt-45 text-5xl max-sm:text-3xl max-md:text-4xl font-bold tracking-tight leading-normal text-center bg-gradient-to-b from-green-300 to-green-400 bg-clip-text text-transparent">
                 Find Funds for Your Project

@@ -6,7 +6,7 @@ export async function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl;
     const token = req.cookies.get("token")?.value;
 
-    const protectedRoutes = ["/listing", "/dashboard"];
+    const protectedRoutes = ["/listing"];
 
     if (protectedRoutes.some((route) => pathname.startsWith(route))) {
         if (!token) {
@@ -30,6 +30,5 @@ export const config = {
     matcher: [
         "/listing",
         "/listing/:path*",
-        "/dashboard/:path*",
     ],
 };
