@@ -81,10 +81,10 @@ function ListingNavbar() {
                     <div onClick={() => setOpenProfile(true)} className="group flex gap-4 items-center hover:bg-[#FEB57F] cursor-pointer rounded-4xl px-2 py-1.5">
                         <div className="w-10 h-10 bg-gray-600 flex items-center justify-center font-bold text-xl rounded-full hover:text-white">{user?.fullName?.[0]}</div>
                         <div className="text-white font-medium group-hover:text-black">{user?.fullName}
-                            <div className="text-slate-300 font-normal text-sm group-hover:text-black">{user?.email}</div>
+                            <div className="text-slate-300 font-normal text-sm group-hover:text-black tracking-wide">{user?.email}</div>
                         </div>
                         <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down-icon lucide-chevron-down hover:text-black"><path d="m6 9 6 6 6-6"/></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down-icon lucide-chevron-down group-hover:text-black"><path d="m6 9 6 6 6-6"/></svg>
                         </div>
                     </div>
 
