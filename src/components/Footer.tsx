@@ -29,8 +29,8 @@ function Footer() {
                 <Link href={"/signup"} className="text-sm hover:text-zinc-300 transition-colors duration-200 max-md:text-[11px]">
                   Register
                 </Link>
-                <Link href={"/signin"} className="text-sm hover:text-zinc-300 transition-colors duration-200 max-md:text-[11px]">
-                  Dashboard
+                <Link href={"/listing"} className="text-sm hover:text-zinc-300 transition-colors duration-200 max-md:text-[11px]">
+                  Listing Page
                 </Link>
               </div>
             </div>
@@ -50,12 +50,12 @@ function Footer() {
             <div>
               <p className="text-stone-50 font-bold max-md:text-sm">CONNECT</p>
               <div className="flex flex-col text-white/50">
-                <Link href={"https://github.com/ashishxjhaa"} target="_blank" className="text-sm hover:text-zinc-300 transition-colors duration-200 max-md:text-xs">
+                <a href="https://github.com/ashishxjhaa" target="_blank" rel="noopener noreferrer" className="text-sm hover:text-zinc-300 transition-colors duration-200 max-md:text-xs">
                   Github
-                </Link>
-                <Link href={"https://x.com/ashishxjha"} target="_blank" className="text-sm hover:text-zinc-300 transition-colors duration-200 max-md:text-xs">
+                </a>
+                <a href="https://x.com/ashishxjha" target="_blank" rel="noopener noreferrer" className="text-sm hover:text-zinc-300 transition-colors duration-200 max-md:text-xs">
                   Twitter
-                </Link>
+                </a>
               </div>
             </div>
         </div>

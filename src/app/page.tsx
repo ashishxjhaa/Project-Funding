@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 function LandingPage() {
   return (
-    <div className='bg-black min-h-screen w-full'>
+    <div className='bg-neutral-800 min-h-screen w-full'>
       <Navbar />
       <div className='mt-42'>
         <Image src="/background.svg" alt="hero-image" className="h-10 md:h-15 object-cover w-full" width={10} height={10}/>

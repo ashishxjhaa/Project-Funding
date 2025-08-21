@@ -1,11 +1,41 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { useRouter } from "next/navigation";
 import Image from "next/image"
+import axios from "axios";
+import { toast } from "react-hot-toast";
+
+interface User {
+  _id: string;
+  fullName: string;
+  email: string;
+}
 
 function ListingNavbar() {
     const [openProfile, setOpenProfile] = useState(false)
+    const [user, setUser] = useState<User | null>(null);
     const menuRef = useRef<HTMLDivElement>(null);
+
+    const router = useRouter();
+
+    const handleLogout = async () => {
+        await axios.get("/api/logout");
+        router.push("/");
+        toast.success("Logged out!")
+    };
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const res = await axios.get("/api/me");
+                setUser(res.data.user);
+            } catch (err) {
+                console.error("Failed to fetch user:", err);
+            }
+        };
+        fetchUser();
+    }, []);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent | TouchEvent) => {
@@ -24,6 +54,7 @@ function ListingNavbar() {
             document.removeEventListener("touchstart", handleClickOutside);
         };
     }, [openProfile]);
+
 
     return (
         <div className="fixed w-full h-fit z-50 p-4 bg-[#2C2125]/40 backdrop-blur-md border-b border-gray-600">
@@ -47,10 +78,10 @@ function ListingNavbar() {
                 </div>
 
                 <div ref={menuRef} className="relative flex items-center justify-end flex-none shrink-0">
-                    <div onClick={() => setOpenProfile(true)} className="group flex gap-4 items-center hover:bg-[#FEB57F] hover:text-black cursor-pointer rounded-4xl px-2 py-1.5">
-                        <div className="w-10 h-10 bg-gray-600 rounded-full"></div>
-                        <div className="text-white font-medium group-hover:text-black">Ashish Jha
-                            <div className="text-slate-300 font-normal text-sm group-hover:text-black">ashishxyzjha@gmail.com</div>
+                    <div onClick={() => setOpenProfile(true)} className="group flex gap-4 items-center hover:bg-[#FEB57F] cursor-pointer rounded-4xl px-2 py-1.5">
+                        <div className="w-10 h-10 bg-gray-600 flex items-center justify-center font-bold text-xl rounded-full hover:text-white">{user?.fullName?.[0]}</div>
+                        <div className="text-white font-medium group-hover:text-black">{user?.fullName}
+                            <div className="text-slate-300 font-normal text-sm group-hover:text-black">{user?.email}</div>
                         </div>
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down-icon lucide-chevron-down hover:text-black"><path d="m6 9 6 6 6-6"/></svg>
@@ -63,16 +94,16 @@ function ListingNavbar() {
                             <div className="bg-[#D69B6F] flex flex-col gap-3 p-4 rounded-t-lg">
                                 <div className="flex items-center gap-3">
                                     <div className="relative flex shrink-0 overflow-hidden rounded-full size-12 ring-1 ring-black/10">
-                                        <div className="flex h-full w-full items-center justify-center rounded-full bg-gray-600 text-white font-semibold">
-                                            A
+                                        <div className="flex h-full w-full items-center justify-center rounded-full bg-gray-600 text-white text-2xl font-bold">
+                                            {user?.fullName?.[0]}
                                         </div>
                                     </div>
 
                                     <div className="flex-1 min-w-0">
                                         <div className="flex items-center gap-1.5">
-                                            <p className="font-medium text-base truncate text-black tracking-wide text-lg">Ashish Jha</p>
+                                            <p className="font-medium text-base truncate text-black tracking-wide text-lg">{user?.fullName}</p>
                                         </div>
-                                        <p className="text-xs text-black/80 truncate tracking-wide">ashishxyzjha@gmail.com</p>
+                                        <p className="text-xs text-black/80 truncate tracking-wide">{user?.email}</p>
                                     </div>
                                 </div>
 
@@ -84,12 +115,12 @@ function ListingNavbar() {
 
                             {/* Second Part */}
                             <div className="bg-[#3A2F35] p-2 space-y-1 w-full rounded-b-lg border border-t-0 border-gray-600">
-                                <div className="flex items-center text-slate-200 gap-2 cursor-pointer px-3 py-2 rounded-md hover:bg-[#FEB57F] hover:text-black text-sm">
+                                <div onClick={() => user && router.push("/profile")} className="flex items-center text-slate-200 gap-2 cursor-pointer px-3 py-2 rounded-md hover:bg-[#FEB57F] hover:text-black text-sm">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-user-round-icon lucide-user-round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
                                     <span className="tracking-wide">Profile</span>
                                 </div>
 
-                                <div className="flex items-center text-slate-200 gap-2 cursor-pointer px-3 py-2 rounded-md hover:bg-[#FEB57F] hover:text-black text-sm">
+                                <div onClick={() => user && router.push("/mylisting")} className="flex items-center text-slate-200 gap-2 cursor-pointer px-3 py-2 rounded-md hover:bg-[#FEB57F] hover:text-black text-sm">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-list-icon lucide-list"><path d="M3 12h.01"/><path d="M3 18h.01"/><path d="M3 6h.01"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M8 6h13"/></svg>
                                     <span className="tracking-wide">My Listing</span>
                                 </div>
@@ -110,7 +141,7 @@ function ListingNavbar() {
                                 </div>
 
                                 <div className="border-t border-gray-600">
-                                    <div className="flex items-center gap-2 cursor-pointer px-3 py-2 mt-1 rounded-md hover:bg-[#492B31] text-sm">
+                                    <div onClick={handleLogout} className="flex items-center gap-2 cursor-pointer px-3 py-2 mt-1 rounded-md hover:bg-[#492B31] text-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-log-out-icon lucide-log-out text-slate-200"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></svg>
                                         <span className="text-[#E75C60] tracking-wide">Log out</span>
                                     </div>

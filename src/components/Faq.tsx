@@ -54,7 +54,7 @@ export default function Faq() {
       <Accordion type="single" collapsible className="w-[700px] max-md:w-full">
         {faqs.map((faq) => (
           <AccordionItem key={faq.value} value={faq.value}>
-            <AccordionTrigger className="cursor-pointer text-white font-extrabold max-md:text-sm hover:bg-gray-700/20 bg-gray-500/10 rounded-lg my-2 border border-gray-100/10 px-4 py-3">
+            <AccordionTrigger className="cursor-pointer text-white font-extrabold max-md:text-sm hover:bg-gray-700/20 bg-gray-500/10 rounded-lg my-2 border border-gray-500 px-4 py-3">
               {faq.question}
             </AccordionTrigger>
             <AccordionContent className="accordion-content text-base max-md:text-sm text-gray-300 px-2">

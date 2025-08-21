@@ -6,21 +6,21 @@ import Faq from "@/components/Faq"
 function Hero() {
     return (
         <div className="w-full min-h-screen pt-28 max-md:pt-15 px-20 max-md:px-7">
-            <div className="text-white font-semibold text-left text-2xl sm:text-3xl md:text-4xl leading-snug ml-7 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
+            <div className="text-white font-medium text-left text-2xl sm:text-3xl md:text-4xl leading-snug ml-7 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
                 A platform where developers showcase projects and raise funds
             </div>
             <div className="mt-5 flex items-center">
                 <Link href="/signin" className="relative inline-block font-semibold ml-7 flex-shrink-0 group">
-                    <span className="block rounded-md p-[1.55px] transition-all duration-300 group-hover:scale-105" style={{background: 'linear-gradient(to right, white, green, blue, white)'}}>
-                        <span className="block rounded-md bg-gray-950 px-5 py-2 text-gray-200 transition-colors duration-300 group-hover:text-white">
+                    <span className="block rounded-lg p-[1.55px] transition-all duration-300 group-hover:scale-105 border-2 border-[#FEB57F] hover:border-[#FF8162]">
+                        <span className="block rounded-md bg-black/40 px-5 py-2 text-gray-200 transition-colors duration-300 group-hover:text-white">
                             List your project
                         </span>
                     </span>
                 </Link>
-                <div className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg text-slate-300 pl-10 text-base sm:text-lg md:text-xl leading-relaxed">The place to showcase tech projects and raise fund or invest in project ideas.</div>
+                <div className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg text-slate-300 pl-10 text-base sm:text-lg md:text-xl tracking-wide leading-relaxed">The place to showcase tech projects and raise fund or invest in project ideas.</div>
             </div>
             <div className="mt-45 text-5xl max-sm:text-3xl max-md:text-4xl font-bold tracking-tight leading-normal text-center bg-gradient-to-b from-green-300 to-green-400 bg-clip-text text-transparent">
-                Find Funds for Your Project
+                Raise Fund for Your Project
             </div>
             <div className="flex justify-center mt-3">
             <div className="relative rounded-full px-5 py-2 border border-zinc-700/50 bg-zinc-900/50 backdrop-blur-sm inline-flex max-w-max">
@@ -35,27 +35,27 @@ function Hero() {
             </div>
             <div className="flex flex-col md:flex-row justify-center items-center gap-6 mt-12 px-10">
                 <div className="w-full md:w-7/12">
-                    <div className="text-left text-white text-3xl md:text-4xl font-extrabold mb-6">Raise fund to <span className="text-blue-600">start</span> your project</div>
+                    <div className="text-left text-white text-3xl md:text-4xl font-extrabold mb-6">Raise fund to <span className="text-[#FF8162]">Start</span> your project</div>
                     <div className="text-slate-300 mb-8">Connect with people who can support your ideas. Share your project, get advice. Turn your ideas into reality.</div>
                     <div className="space-y-4">
                     <div className="flex gap-3 items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-lock-icon lucide-lock w-6 h-6 text-blue-500"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-lock-icon lucide-lock w-6 h-6 text-green-400"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                         <div className="text-slate-300">Secure funding with tailored pitches and proposals</div>
                     </div>
                     <div className="flex gap-3 items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-user-icon lucide-user w-6 h-6 text-blue-500"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-user-icon lucide-user w-6 h-6 text-green-400"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                         <div className="text-slate-300">Receive expert advice from top mentors in your domain</div>
                     </div>
                     <div className="flex gap-3 items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-loader-icon lucide-loader w-6 h-6 text-blue-500"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-loader-icon lucide-loader w-6 h-6 text-green-400"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/></svg>
                         <div className="text-slate-300">Set clear milestones for your project and track progress easily</div>
                     </div>
                     </div>
                     <div className="mt-6">
-                    <Link href={'/signup'} className="inline-flex text-white bg-blue-600 hover:bg-blue-700 flex items-center gap-3 rounded-md px-6 py-3 font-semibold cursor-pointer">Start Your Journey <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-trending-up-icon lucide-trending-up w-5 h-5 text-white"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></svg></Link>
+                    <Link href={'/signup'} className="inline-flex text-black bg-[#D69B6F] flex items-center gap-3 rounded-md hover:bg-[#FEB57F] px-6 py-3 font-semibold cursor-pointer">Start Your Journey <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-trending-up-icon lucide-trending-up w-5 h-5 text-black"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></svg></Link>
                     </div>
                 </div>
-                <div className="w-full md:w-5/12 p-6 bg-gray-500/20 border border-gray-100/10 rounded-md text-lg font-medium cursor-pointer hover:scale-100 hover:-translate-y-2 transition-transform duration-300">
+                <div className="w-full md:w-5/12 p-6 bg-gray-500/20 border border-[#FF8162] rounded-md text-lg font-medium cursor-pointer hover:scale-100 hover:-translate-y-2 transition-transform duration-300">
                     <div>
                         <div className="flex mb-6 justify-between">
                             <div className="flex gap-4 items-center">
@@ -67,30 +67,30 @@ function Hero() {
                                     <p className="text-sm max-w-80 text-slate-300">Full Stack Developer</p>
                                 </div>
                             </div>
-                            <div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-shield-icon lucide-shield text-blue-500"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg></div>
+                            <div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-shield-icon lucide-shield text-red-600"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg></div>
                         </div>
                         <div className="flex mb-3 justify-between">
                             <div className="flex gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-user-icon lucide-user text-blue-400"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-user-icon lucide-user text-green-400"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                                 <div className="text-white">Verified user</div>
                             </div>
-                            <div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-toggle-right-icon lucide-toggle-right text-blue-600"><circle cx="15" cy="12" r="3"/><rect width="20" height="14" x="2" y="5" rx="7"/></svg></div>
+                            <div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-toggle-right-icon lucide-toggle-right text-red-400"><circle cx="15" cy="12" r="3"/><rect width="20" height="14" x="2" y="5" rx="7"/></svg></div>
                         </div>
                         <div className="flex mb-3 justify-between">
                             <div className="flex gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-off-icon lucide-eye-off text-blue-400"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></svg>
-                                <div className="text-white">Close deal</div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-off-icon lucide-eye-off text-green-400"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></svg>
+                                <div className="text-white">Close listing</div>
                             </div>
-                            <div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-toggle-right-icon lucide-toggle-right text-blue-600"><circle cx="15" cy="12" r="3"/><rect width="20" height="14" x="2" y="5" rx="7"/></svg></div>
+                            <div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-toggle-right-icon lucide-toggle-right text-red-400"><circle cx="15" cy="12" r="3"/><rect width="20" height="14" x="2" y="5" rx="7"/></svg></div>
                         </div>
                         <div className="flex justify-between">
                             <div className="flex gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-lock-icon lucide-lock text-blue-400"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-lock-icon lucide-lock text-green-400"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                                 <div className="text-white">Hide project</div>
                             </div>
-                            <div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-toggle-right-icon lucide-toggle-right text-blue-600"><circle cx="15" cy="12" r="3"/><rect width="20" height="14" x="2" y="5" rx="7"/></svg></div>
+                            <div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-toggle-right-icon lucide-toggle-right text-red-400"><circle cx="15" cy="12" r="3"/><rect width="20" height="14" x="2" y="5" rx="7"/></svg></div>
                         </div>
-                        <div className="mt-4 text-blue-500 flex justify-center items-center rounded-md p-5 py-2 font-medium border border-blue-950">{`Privacy first. Connect when you're ready`}</div>
+                        <div className="mt-4 text-green-400 flex justify-center items-center rounded-md p-5 py-2 tracking-wider font-semibold border border-gray-300">Privacy First.</div>
                     </div>
                 </div>
             </div>
