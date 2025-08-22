@@ -15,7 +15,24 @@ interface User {
 function ListingNavbar() {
     const [openProfile, setOpenProfile] = useState(false)
     const [user, setUser] = useState<User | null>(null);
+    const [showRefer, setShowRefer] = useState(false);
+
     const menuRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        document.addEventListener("mousedown", (event) => {
+            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+                setOpenProfile(false);
+                setShowRefer(false);
+            }
+        });
+
+        return () => {
+            document.removeEventListener("mousedown", (event) => {});
+        };
+    }, []);
+
+
 
     const router = useRouter();
 
@@ -140,10 +157,34 @@ function ListingNavbar() {
                                     <span className="tracking-wide">Help & Support</span>
                                 </div>
                                 
-                                <div className="flex items-center text-slate-200 gap-2 cursor-pointer px-3 py-2 rounded-md hover:bg-[#FEB57F] hover:text-black text-sm">
+                                <div onClick={() => setShowRefer(true)} className="flex items-center text-slate-200 gap-2 cursor-pointer px-3 py-2 rounded-md hover:bg-[#FEB57F] hover:text-black text-sm">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-share2-icon lucide-share-2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg>
                                     <span className="tracking-wide">Refer Friends</span>
                                 </div>
+
+                                {showRefer && (
+                                    <div onClick={() => setShowRefer(false)} className="fixed inset-0 z-50 flex items-center justify-center min-h-screen">
+                                        <div onClick={(e) => e.stopPropagation()} className="relative bg-[#FEB57F] rounded-xl p-6 w-[90%] max-w-md shadow-lg">
+                                            <div className="flex items-center justify-between mb-4">
+                                                <div className="font-semibold text-black tracking-wide">
+                                                    Copy & Share Link
+                                                </div>
+                                                <button onClick={() => setShowRefer(false)} className="p-1 hover:bg-black/10 rounded-full cursor-pointer">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x text-black"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                                                </button>
+                                            </div>
+                                            <div className="flex items-center justify-between bg-white/70 rounded-md px-3 py-2">
+                                                <span className="text-sm text-black truncate">
+                                                    https://projectfunding.vercel.app
+                                                </span>
+                                                <button onClick={() => { navigator.clipboard.writeText("https://projectfunding.vercel.app"); toast.success("Link copied!"); }} className="p-2 hover:bg-black/10 rounded-md">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-copy text-black cursor-pointer"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
 
                                 <div className="border-t border-gray-600">
                                     <div onClick={handleLogout} className="flex items-center gap-2 cursor-pointer px-3 py-2 mt-1 rounded-md hover:bg-[#492B31] text-sm">
