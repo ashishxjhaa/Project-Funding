@@ -69,6 +69,9 @@ export default function MyListingPage() {
       <div className="pt-30 pr-10 flex justify-between">
         <Back />
         <UploadProject />
+      </div>
+
+      <div>
 
         <UploadProject open={!!editingProject}
           initialProject={editingProject}
