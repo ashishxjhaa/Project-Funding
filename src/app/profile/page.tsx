@@ -116,6 +116,7 @@ export default function ProfilePage() {
           
           <div className="mt-6 px-4 sm:px-10 pb-30">
             <div className="mx-auto w-full max-w-2xl">
+              
               {activeTab === "personal" && (
                 <div className="rounded-xl bg-[#3A2F35] overflow-hidden">
                   <div className="p-6 pt-7 pb-7">
@@ -124,7 +125,7 @@ export default function ProfilePage() {
                       <span className="text-md font-bold tracking-wider">Full Name</span>
                     </div>
                     <div className="flex items-center justify-center gap-2">
-                      <input type="email" className="text-slate-50 h-10 w-full pl-10 focus:outline-none focus:ring-0 rounded-md border border-gray-500" placeholder="Edit full name"/>
+                      <input type="email" className="text-slate-50 h-10 w-full pl-10 focus:outline-none focus:ring-0 rounded-md border border-gray-500" placeholder="Update full name"/>
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-pencil-icon lucide-pencil cursor-pointer"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
                     </div>
                   </div>
@@ -135,7 +136,7 @@ export default function ProfilePage() {
                       <span className="text-md font-bold tracking-wider">Email</span>
                     </div>
                     <div className="flex itmes-center justify-center gap-2">
-                      <input type="email" className="text-slate-50 h-10 w-full pl-10 focus:outline-none focus:ring-0 rounded-md border border-gray-500" placeholder="Edit email"/>
+                      <input type="email" className="text-slate-50 h-10 w-full pl-10 focus:outline-none focus:ring-0 rounded-md border border-gray-500" placeholder="Update email"/>
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-pencil-icon lucide-pencil cursor-pointer"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
                     </div>
                   </div>
