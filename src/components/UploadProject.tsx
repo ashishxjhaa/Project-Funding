@@ -11,6 +11,9 @@ function UploadProject() {
   const [selectedTags, setSelectedTags] = useState<string[]>([])
   const tags = ["SaaS", "Productivity", "Healthcare", "AI", "Fintech", "E-commerce"]
 
+  const [description, setDescription] = useState("");
+  const maxLength = 100;
+
   const toggleTag = (tag: string) => {
     setSelectedTags((prev) =>
       prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
@@ -54,8 +57,11 @@ function UploadProject() {
                     </div>
 
                     <div className="bg-[#43383E] rounded-md p-2 px-3">
-                      <label className="block text-sm font-bold text-[#FF8162]">Short Description</label>
-                      <textarea className="w-full max-h-15 min-h-15 mt-1 p-2 rounded-md border-2 border-gray-400 focus:outline-none" rows={3}></textarea>
+                      <div className="flex items-center justify-between">
+                        <label className="block text-sm font-bold text-[#FF8162]">Short Description</label>
+                        <span className="text-xs text-gray-400">{description.length}/{maxLength}</span>
+                      </div>
+                      <textarea value={description} onChange={(e) => { if (e.target.value.length <= maxLength) { setDescription(e.target.value) }}} className="w-full max-h-15 min-h-15 mt-1 p-2 rounded-md border-2 border-gray-400 focus:outline-none transition-all" rows={3}></textarea>
                     </div>
 
                     <div className="bg-[#43383E] rounded-md p-2 px-3">
