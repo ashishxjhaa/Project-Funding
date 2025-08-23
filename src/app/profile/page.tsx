@@ -1,6 +1,8 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
 import Back from "@/components/Back";
 import ProfileNavbar from "@/components/ProfileNavbar";
@@ -17,6 +19,53 @@ const formattedDate = new Date(createdAt).toLocaleDateString("en-US", {
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<"personal" | "language" | null>(null);
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
+
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+
+  const [originalFullName, setOriginalFullName] = useState("");
+  const [originalEmail, setOriginalEmail] = useState("");
+
+
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [isEditingEmail, setIsEditingEmail] = useState(false);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get("/api/me");
+        setFullName(res.data.user.fullName);
+        setEmail(res.data.user.email);
+
+        setOriginalFullName(res.data.user.fullName);
+        setOriginalEmail(res.data.user.email);
+      } catch (err) {
+        console.error("Failed to fetch user:", err);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  const handleUpdate = async () => {
+    if (fullName === originalFullName && email === originalEmail) {
+      toast.error("No changes to update!");
+      return;
+    }
+    try {
+      await axios.put("/api/me", { fullName, email });
+      setIsEditingName(false);
+      setIsEditingEmail(false);
+      toast.success("Profile updated!");
+
+      setOriginalFullName(fullName);
+      setOriginalEmail(email);
+       
+      window.dispatchEvent(new Event("userUpdated"));
+
+    } catch (err) {
+      toast.error("Failed to update profile");
+    }
+  };
 
   const languages = [ "HTML", "CSS", "Tailwind CSS", "JavaScript", "TypeScript", "React", "Next.js", "Vue.js", "Angular", "Three.js", "Node.js", "Express.js", "NestJS", "Bun", "Rust"]
   const toggleLanguage = (lang: string) => {
@@ -125,8 +174,8 @@ export default function ProfilePage() {
                       <span className="text-md font-bold tracking-wider">Full Name</span>
                     </div>
                     <div className="flex items-center justify-center gap-2">
-                      <input type="email" className="text-slate-50 h-10 w-full pl-10 focus:outline-none focus:ring-0 rounded-md border border-gray-500" placeholder="Update full name"/>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-pencil-icon lucide-pencil cursor-pointer"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+                      <input value={fullName} onChange={(e) => setFullName(e.target.value)} type="text" disabled={!isEditingName} className={`text-slate-50 h-10 w-full pl-10 focus:outline-none focus:ring-0 rounded-md border border-gray-500 ${isEditingName ? "" : "cursor-not-allowed"}`} placeholder="Update full name"/>
+                      <svg onClick={() => setIsEditingName(true)} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-pencil-icon lucide-pencil cursor-pointer"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
                     </div>
                   </div>
 
@@ -136,8 +185,8 @@ export default function ProfilePage() {
                       <span className="text-md font-bold tracking-wider">Email</span>
                     </div>
                     <div className="flex itmes-center justify-center gap-2">
-                      <input type="email" className="text-slate-50 h-10 w-full pl-10 focus:outline-none focus:ring-0 rounded-md border border-gray-500" placeholder="Update email"/>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-pencil-icon lucide-pencil cursor-pointer"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+                      <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" disabled={!isEditingEmail} className={`text-slate-50 h-10 w-full pl-10 focus:outline-none focus:ring-0 rounded-md border border-gray-500 ${isEditingEmail ? "" : "cursor-not-allowed"}`} placeholder="Update email id"/>
+                      <svg onClick={() => setIsEditingEmail(true)} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-pencil-icon lucide-pencil cursor-pointer"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
                     </div>
                   </div>
 
@@ -153,7 +202,7 @@ export default function ProfilePage() {
                   </div>
             
                   <div className="flex justify-center items-center">
-                    <button type="submit" className="hover:bg-[#D69B6F] bg-[#FEB57F] font-semibold tracking-wide rounded-md py-2 cursor-pointer text-black w-[85%] mr-10 mb-8">Submit</button>
+                    <button onClick={handleUpdate} type="button" className="hover:bg-[#D69B6F] bg-[#FEB57F] font-semibold tracking-wide rounded-md py-2 cursor-pointer text-black w-[85%] mr-10 mb-8">Submit</button>
                   </div>
                 </div>
               )}

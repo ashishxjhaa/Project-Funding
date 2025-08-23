@@ -49,6 +49,13 @@ function ProfileNavbar() {
             }
         };
         fetchUser();
+
+        const handleUserUpdated = () => fetchUser();
+        window.addEventListener("userUpdated", handleUserUpdated);
+
+        return () => {
+            window.removeEventListener("userUpdated", handleUserUpdated);
+        };
     }, []);
 
     useEffect(() => {
