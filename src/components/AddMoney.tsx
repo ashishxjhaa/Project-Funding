@@ -21,11 +21,11 @@ function AddMoney() {
   }, []);
 
   return (
-    <div className='w-fit'>
-        <div className='flex rounded-lg bg-zinc-600 hover:bg-zinc-700 ml-8 mt-8 px-4 py-2 cursor-pointer'>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-            <div onClick={() => setShowForm(true)} className="text-white pl-2 pr-1">Add Money</div>
-
+    <div>
+        <div onClick={() => setShowForm(true)} className='flex rounded-lg bg-zinc-600 hover:bg-zinc-700 ml-8 mt-8 px-4 py-2 cursor-pointer'>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+          <span className="text-white pl-2 pr-1">Add Money</span>
+        </div>
               {showForm && (
                 <div onClick={() => setShowForm(false)} className="fixed inset-0 z-50 flex items-center justify-center min-h-screen pt-12">
                   <div onClick={(e) => e.stopPropagation()} className="relative bg-[#2C2024] rounded-xl p-6 w-[90%] max-w-md max-h-[80vh] overflow-y-auto border border-gray-600">
@@ -58,7 +58,6 @@ function AddMoney() {
               </div>
             )}
         </div>
-    </div>
   )
 }
 
