@@ -7,15 +7,6 @@ import { toast } from "react-hot-toast";
 import Back from "@/components/Back";
 import ProfileNavbar from "@/components/ProfileNavbar";
 
-const createdAt = "2025-08-19T07:27:36.568+00:00";
-
-const formattedDate = new Date(createdAt).toLocaleDateString("en-US", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-});
-
-
 export default function ProfilePage() {
   const [totalProjects, setTotalProjects] = useState(0);
   const [totalLikes, setTotalLikes] = useState(0);
@@ -33,6 +24,13 @@ export default function ProfilePage() {
 
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingEmail, setIsEditingEmail] = useState(false);
+
+  const [createdAt, setCreatedAt] = useState("");
+
+  const [github, setGithub] = useState("");
+  const [originalGithub, setOriginalGithub] = useState("");
+  const [isEditingGithub, setIsEditingGithub] = useState(false);
+
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -57,6 +55,11 @@ export default function ProfilePage() {
 
         setOriginalFullName(res.data.user.fullName);
         setOriginalEmail(res.data.user.email);
+
+        setCreatedAt(res.data.user.createdAt);
+
+        setGithub(res.data.user.github || "");
+        setOriginalGithub(res.data.user.github || "");
       } catch (err) {
         console.error("Failed to fetch user:", err);
       }
@@ -64,19 +67,39 @@ export default function ProfilePage() {
     fetchUser();
   }, []);
 
+  const formattedDate = createdAt
+    ? new Date(createdAt).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    })
+  : "";
+
+  function getInitials(name: string) {
+    if (!name) return "";
+    const parts = name.trim().split(" ");
+    if (parts.length === 1) {
+      return parts[0][0].toUpperCase();
+    }
+    return (parts[0][0] + parts[1][0]).toUpperCase();
+  }
+
+
   const handleUpdate = async () => {
-    if (fullName === originalFullName && email === originalEmail) {
+    if (fullName === originalFullName && email === originalEmail && github === originalGithub) {
       toast.error("No changes to update!");
       return;
     }
     try {
-      await axios.put("/api/me", { fullName, email });
+      await axios.put("/api/me", { fullName, email, github });
       setIsEditingName(false);
       setIsEditingEmail(false);
+      setIsEditingGithub(false);
       toast.success("Profile updated!");
 
       setOriginalFullName(fullName);
       setOriginalEmail(email);
+      setOriginalGithub(github);
        
       window.dispatchEvent(new Event("userUpdated"));
 
@@ -104,14 +127,14 @@ export default function ProfilePage() {
             <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-full opacity-75 blur-sm"></div>
             <div className="relative flex shrink-0 rounded-full h-24 w-24">
               <div className="absolute -inset-[7px] bg-gradient-to-r from-[#FF8162] to-[#FEB57F] rounded-full opacity-75 blur-sm"></div>
-              <div className="flex h-full w-full items-center justify-center rounded-full text-2xl font-bold bg-gray-700 border-4 border-background relative z-10">AJ</div>
+              <div className="flex h-full w-full items-center justify-center rounded-full text-2xl font-bold bg-gray-700 border-4 border-background relative z-10">{getInitials(fullName)}</div>
             </div>
           </div>
 
 
           <div className="flex-1">
             <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
-              <h1 className="text-4xl font-bold tracking-tight text-[#FF8162]">Ashish Jha</h1>
+              <h1 className="text-4xl font-bold tracking-tight text-[#FF8162]">{fullName}</h1>
             </div>
             <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground mb-4">
               <span className="flex items-center gap-3">
@@ -120,10 +143,12 @@ export default function ProfilePage() {
               </span>
             </div>
             <div className="flex flex-wrap gap-3 cursor-pointer">
-              <a href="https://github.com/ashishxjhaa" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs tracking-wide bg-[#3A2F35] border border-transparent hover:border hover:border-[#FF8162]">
+              {github && (
+              <a href={`https://github.com/${github}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs tracking-wide bg-[#3A2F35] border border-transparent hover:border hover:border-[#FF8162]">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-github h-3.5 w-3.5"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
-                @ashishxjhaa
+                @{github}
               </a>
+              )}
             </div>
           </div>
         </div>
@@ -214,8 +239,8 @@ export default function ProfilePage() {
                       <span className="text-md font-bold tracking-wider">Github</span>
                     </div>
                     <div className="flex itmes-center justify-center gap-2">
-                      <input type="email" className="text-slate-50 h-10 w-full pl-10 focus:outline-none focus:ring-0 rounded-md border border-gray-500" placeholder="Add Github"/>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-pencil-icon lucide-pencil cursor-pointer"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+                      <input value={github} onChange={(e) => setGithub(e.target.value)} type="email" disabled={!isEditingGithub} className={`text-slate-50 h-10 w-full pl-10 focus:outline-none focus:ring-0 rounded-md border border-gray-500 ${ isEditingGithub ? "" : "cursor-not-allowed"}`} placeholder="Add Github username"/>
+                      <svg onClick={() => setIsEditingGithub(true)} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-pencil-icon lucide-pencil cursor-pointer"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
                     </div>
                   </div>
             

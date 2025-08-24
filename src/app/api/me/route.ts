@@ -65,11 +65,11 @@ export async function PUT(req: Request) {
     }
 
     const body = await req.json();
-    const { fullName, email } = body;
+    const { fullName, email, github } = body;
 
     const updatedUser = await User.findByIdAndUpdate(
       decoded.userId,
-      { fullName, email },
+      { fullName, email, github },
       { new: true }
     ).select("-password");
 
