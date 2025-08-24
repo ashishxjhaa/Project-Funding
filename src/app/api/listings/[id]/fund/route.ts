@@ -88,20 +88,43 @@ export async function POST( req: Request, context: { params: Promise<{ id: strin
         ? await listingQuery.session(session)
         : await listingQuery;
 
-        if (process.env.NODE_ENV === "production") {
-            await session.commitTransaction();
-        }
+        if (updatedListing?.user) {
+            const ownerWalletQuery = Wallet.findOneAndUpdate(
+                { user: updatedListing.user },
+                {
+                    $inc: { balance: amount },
+                    $push: {
+                        transactions: {
+                            type: "credit",
+                            amount,
+                            status: "Success",
+                            createdAt: new Date(),
+                            description: `Funding received for listing ${updatedListing.name}`,
+                        },
+                    },
+                },
+                { upsert: true, new: true }
+            );
 
-        return NextResponse.json({ success: true, funds: updatedListing?.funds ?? 0 });
-    } catch (error) {
-      console.error("Fund transaction failed:", error);
-      if (process.env.NODE_ENV === "production") {
-        await session.abortTransaction();
-      }
-      return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
-    } finally {
-      session.endSession();
-    }
+            process.env.NODE_ENV === "production"
+                ? await ownerWalletQuery.session(session)
+                : await ownerWalletQuery;
+            }
+
+            if (process.env.NODE_ENV === "production") {
+                await session.commitTransaction();
+            }
+
+            return NextResponse.json({ success: true, funds: updatedListing?.funds ?? 0 });
+        } catch (error) {
+            console.error("Fund transaction failed:", error);
+            if (process.env.NODE_ENV === "production") {
+                await session.abortTransaction();
+            }
+            return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
+        } finally {
+            session.endSession();
+        }
     } catch (err) {
         console.error("POST /api/listings/[id]/fund error:", err);
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
