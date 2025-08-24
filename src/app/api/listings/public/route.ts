@@ -68,7 +68,6 @@ export async function GET(req: Request) {
       const allIds = [...topListings, ...allListings].map((l) => l._id);
       const uniqueIds = [...new Set(allIds.map(String))];
 
-      // lean() result explicitly typed as an array of possible listing objects
       const likedDocs = (await Like.find({
         listing: { $in: uniqueIds },
         user: userId,
@@ -76,7 +75,6 @@ export async function GET(req: Request) {
         .select("listing")
         .lean()) as Array<{ listing?: mongoose.Types.ObjectId | string }>;
 
-      // Filter out entries without `listing` (type-guard) then map to string
       const likedSet = new Set<string>(
         likedDocs
           .filter((d): d is { listing: mongoose.Types.ObjectId | string } => d.listing != null)

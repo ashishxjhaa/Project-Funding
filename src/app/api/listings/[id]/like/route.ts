@@ -52,11 +52,9 @@ export async function POST(req: Request, context: { params: Promise<{ id: string
     if (error) return error;
     const { id } = await context.params;
 
-    // create like (unique index on Like prevents duplicates)
     try {
       await Like.create({ listing: id, user: userId });
     } catch (err: unknown) {
-      // detect duplicate-key (already liked)
       if (typeof err === "object" && err !== null && "code" in err && (err as { code?: number }).code === 11000) {
         const current = (await Listing.findById(id).lean()) as ListingDoc | null;
         return NextResponse.json({ liked: true, likes: current?.likes ?? 0 }, { status: 200 });
