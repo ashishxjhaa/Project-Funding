@@ -26,6 +26,16 @@ const listingSchema = new mongoose.Schema({
             message: "Select exactly 3 tags.",
         },
     },
+    funds: {
+        type: Number,
+        default: 0,
+        min: 0,
+    },
+    likes: {
+        type: Number,
+        default: 0,
+        min: 0,
+    },
     link: { 
         type: String 
     },
@@ -34,6 +44,9 @@ const listingSchema = new mongoose.Schema({
         default: Date.now 
     },
 });
+
+listingSchema.index({ funds: -1, likes: -1 });
+listingSchema.index({ createdAt: -1 });
 
 const Listing = mongoose.models.Listing || mongoose.model("Listing", listingSchema);
 

@@ -4,8 +4,26 @@ import AddMoney from "@/components/AddMoney"
 import Back from "@/components/Back"
 import ProfileNavbar from "@/components/ProfileNavbar"
 
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { WalletType, Transaction } from "@/types/wallet";
+
 
 function MyWallet() {
+    const [wallet, setWallet] = useState<WalletType | null>(null);
+
+    const fetchWallet = async () => {
+        try {
+            const res = await axios.get("/api/wallet");
+            setWallet(res.data.wallet);
+        } catch (err) {
+            console.error("Failed to fetch wallet", err);
+        }
+    };
+
+    useEffect(() => {
+        fetchWallet();
+    }, []);
 
   return (
     <div className="bg-[#2C2024] min-h-screen">
@@ -13,7 +31,7 @@ function MyWallet() {
 
         <div className="pt-30 pr-10 flex justify-between">
         <Back />
-        <AddMoney />
+        <AddMoney onSuccess={fetchWallet} />
       </div>
         
         <div className="w-full px-25 py-10">
@@ -25,9 +43,13 @@ function MyWallet() {
                             Your Balance
                         </div>
                     </div>
+                    {wallet ? (
                     <div className="flex flex-row gap-1 text-3xl font-bold tracking-wider text-white">
-                        ₹ {2000}.00 <span className="flex items-end text-sm text-slate-200 pl-2">Available</span>
+                        ₹ {wallet.balance}.00 <span className="flex items-end text-sm text-slate-200 pl-2">Available</span>
                     </div>
+                    ) : (
+                        <div className="text-white font-bold text-sm">Loading...</div>
+                    )}
                 </div>
             </div>
         </div>
@@ -37,39 +59,26 @@ function MyWallet() {
                 <div className="w-full text-left font-bold pt-2 text-xl text-[#FF8162] tracking-wider">
                     Recent Transactions
                 </div>
+
                 <div className="w-full flex flex-col gap-4">
-                    <div className="flex justify-between items-center bg-[#2C2024] rounded-lg px-4 py-3 border border-gray-600">
+                {!wallet ? (
+                    <div className="text-gray-400 text-center py-4">Loading transactions...</div>
+                ) : wallet.transactions.length === 0 ? (
+                    <div className="text-gray-400 text-center py-4">No transactions yet</div>
+                ) : (
+                [...wallet.transactions].reverse().map((tx: Transaction, i) => (
+                    <div key={i} className="flex justify-between items-center bg-[#2C2024] rounded-lg px-4 py-3 border border-gray-600">
                         <div>
-                            <div className="text-white font-semibold">Credit</div>
-                            <div className="text-xs text-gray-400">Mon, 18 Aug 2025</div>
+                            <div className="text-white font-semibold">{tx.type === "credit" ? "Credit" : "Debit"}</div>
+                            <div className="text-xs text-gray-400">{new Date(tx.createdAt ?? Date.now()).toDateString()}</div>
                         </div>
                         <div className="text-right">
-                            <div className="text-green-400 font-bold">+ ₹500.00</div>
-                            <div className="text-xs text-gray-300">Success</div>
+                            <div className={`${tx.type === "credit" ? "text-green-400" : "text-red-400"} font-bold`}>{tx.type === "credit" ? "+ " : "- "}₹{tx.amount}</div>
+                            <div className="text-xs text-gray-300">{tx.status}</div>
                         </div>
                     </div>
-
-                    <div className="flex justify-between items-center bg-[#2C2024] rounded-lg px-4 py-3 border border-gray-600">
-                        <div>
-                            <div className="text-white font-semibold">Debit</div>
-                            <div className="text-xs text-gray-400">Tue, 19 Aug 2025</div>
-                        </div>
-                        <div className="text-right">
-                            <div className="text-red-400 font-bold">- ₹200.00</div>
-                            <div className="text-xs text-gray-300">Failed</div>
-                        </div>
-                    </div>
-
-                    <div className="flex justify-between items-center bg-[#2C2024] rounded-lg px-4 py-3 border border-gray-600">
-                        <div>
-                            <div className="text-white font-semibold">Credit</div>
-                            <div className="text-xs text-gray-400">Wed, 20 Aug 2025</div>
-                        </div>
-                        <div className="text-right">
-                            <div className="text-green-400 font-bold">+ ₹1200.00</div>
-                            <div className="text-xs text-gray-300">Success</div>
-                        </div>
-                    </div>
+                )
+                ))}
                 </div>
             </div>
         </div>

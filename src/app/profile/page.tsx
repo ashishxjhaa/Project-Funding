@@ -17,6 +17,10 @@ const formattedDate = new Date(createdAt).toLocaleDateString("en-US", {
 
 
 export default function ProfilePage() {
+  const [totalProjects, setTotalProjects] = useState(0);
+  const [totalLikes, setTotalLikes] = useState(0);
+  const [totalFunds, setTotalFunds] = useState(0);
+
   const [activeTab, setActiveTab] = useState<"personal" | "language" | null>(null);
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
 
@@ -29,6 +33,20 @@ export default function ProfilePage() {
 
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingEmail, setIsEditingEmail] = useState(false);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const res = await axios.get("/api/user/stats");
+        setTotalProjects(res.data.totalProjects || 0);
+        setTotalLikes(res.data.totalLikes || 0);
+        setTotalFunds(res.data.totalFunds || 0);
+      } catch (err) {
+        console.error("Failed to load stats:", err);
+      }
+    };
+    fetchStats();
+  }, []);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -118,7 +136,7 @@ export default function ProfilePage() {
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-list-collapse-icon lucide-list-collapse h-5 w-5 text-[#FF8162]"><path d="M10 12h11"/><path d="M10 18h11"/><path d="M10 6h11"/><path d="m3 10 3-3-3-3"/><path d="m3 20 3-3-3-3"/></svg>
                 <span className="text-sm tracking-wider">Total Project</span>
               </div>
-              <p className="text-2xl font-bold">0</p>
+              <p className="text-2xl font-bold">{totalProjects}</p>
               <p className="text-xs mt-2 tracking-wide text-[#FF8162]">Time to build more! ⏰</p>
             </div>
           </div>
@@ -128,7 +146,7 @@ export default function ProfilePage() {
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-thumbs-up-icon lucide-thumbs-up h-5 w-5 text-[#FF8162]"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg>
                 <span className="text-sm tracking-wider">Total Liked</span>
               </div>
-              <p className="text-2xl font-bold">0 Like</p>
+              <p className="text-2xl font-bold">{totalLikes} Like</p>
               <p className="text-xs mt-2 tracking-wide text-[#FF8162]">Dedication level: Normal ☀️</p>
             </div>
           </div>
@@ -148,7 +166,7 @@ export default function ProfilePage() {
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-indian-rupee-icon lucide-indian-rupee h-5 w-5 text-[#FF8162]"><path d="M6 3h12"/><path d="M6 8h12"/><path d="m6 13 8.5 8"/><path d="M6 13h3"/><path d="M9 13c6.667 0 6.667-10 0-10"/></svg>
                 <span className="text-sm tracking-wider">Raised Fund</span>
               </div>
-              <p className="text-2xl font-bold">0 INR</p>
+              <p className="text-2xl font-bold">₹ {totalFunds}</p>
               <p className="text-xs mt-2 tracking-wide text-[#FF8162]">Start listing more project 🎯</p>
             </div>
           </div>

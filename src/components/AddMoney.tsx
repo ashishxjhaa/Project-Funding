@@ -1,24 +1,51 @@
 "use client"
 
+import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 
+type AddMoneyProps = {
+  onSuccess?: () => void;
+};
 
-function AddMoney() {
+function AddMoney({ onSuccess }: AddMoneyProps) {
   const [showForm, setShowForm] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null);
+
+  const [upi, setUpi] = useState("");
+  const [amount, setAmount] = useState("");
+
+  const handleProceed = async () => {
+      const amt = Number(amount);
+      if (!upi || !Number.isInteger(amt) || amt < 1) {
+        toast.error("Provide valid UPI");
+        return;
+      }
+
+
+      try {
+        await axios.post("/api/wallet/add", { amount: amt });
+        toast.success("Amount added successfully!");
+        setShowForm(false);
+        setUpi("");
+        setAmount("");
+        if (onSuccess) onSuccess();
+      } catch (err) {
+        toast.error("Failed to add money");
+      }
+  };
   
   useEffect(() => {
-    document.addEventListener("mousedown", (event) => {
+    const handleClick = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setShowForm(false);
       }
-    });
-  
-    return () => {
-      document.removeEventListener("mousedown", (event) => {});
     };
+
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
   }, []);
+
 
   return (
     <div>
@@ -41,16 +68,15 @@ function AddMoney() {
                   <div className="flex flex-col gap-4">
                     <div className="bg-[#43383E] rounded-md p-2 px-3">
                       <label className="block text-md font-bold text-[#FF8162]">UPI id</label>
-                      <input type="text" className="w-full mt-1 p-2 mb-2 rounded-md border-2 border-gray-400 focus:outline-none" />
+                      <input type="text" value={upi ?? ""} onChange={(e) => setUpi(e.target.value)} className="w-full mt-1 p-2 mb-2 rounded-md border-2 border-gray-400 focus:outline-none" />
                     </div>
 
                     <div className="bg-[#43383E] rounded-md p-2 px-3">
                       <label className="block text-sm font-bold text-[#FF8162]">Amount</label>
-                      <input type="url" className="w-full mt-1 p-2 mb-2 rounded-md border-2 border-gray-400 focus:outline-none" />
+                      <input type="text" inputMode="numeric" pattern="[0-9]*" min="1" value={amount} onChange={(e) => { if (/^\d*$/.test(e.target.value)) { setAmount(e.target.value)}}} className="w-full mt-1 p-2 mb-2 rounded-md border-2 border-gray-400 focus:outline-none" />
                     </div>
 
-                    <button onClick={() => { toast.success("Amount added successfully!") 
-                      setShowForm(false) }} className="hover:bg-[#D69B6F] bg-[#FEB57F] font-semibold tracking-wide rounded-md py-2 cursor-pointer text-black w-full">
+                    <button onClick={handleProceed} className="hover:bg-[#D69B6F] bg-[#FEB57F] font-semibold tracking-wide rounded-md py-2 cursor-pointer text-black w-full">
                       Proceed
                     </button>
                   </div>
