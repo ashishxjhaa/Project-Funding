@@ -15,6 +15,7 @@ type Listing = {
     funds: number;
     likes: number;
     liked?: boolean;
+    favourited?: boolean;
 };
 
 function ListingContent() {
@@ -69,6 +70,26 @@ function ListingContent() {
             setAllListings(allSnap);
         }
     };
+
+    const handleFavourite = async (id: string, currentlyFavourited?: boolean) => {
+        const topSnap = topListings;
+        const allSnap = allListings;
+
+        updateLocalListing(id, (l) => ({ ...l, favourited: !l.favourited }));
+
+        try {
+            if (currentlyFavourited) {
+            await axios.delete(`/api/favouriteproject?listingId=${id}`);
+        } else {
+            await axios.post(`/api/favouriteproject`, { listingId: id });
+        }
+    } catch (err) {
+        toast.error("Action failed.");
+        setTopListings(topSnap);
+        setAllListings(allSnap);
+    }
+};
+
 
     const handleFundSuccess = (amount: number) => {
         if (!fundProjectId) return;
@@ -180,7 +201,7 @@ function ListingContent() {
                                     <span className="text-xs mt-2 p-1 rounded-sm border border-gray-600 bg-gray-800 text-white flex justify-center">{project.likes}</span>
                                 </div>
                                 <div>
-                                <div className={`relative group/icon flex flex-col items-center justify-center w-12 h-12 rounded-xl border-2 border-gray-600 hover:border-[#FF8162] transition text-[#FEB57F] `}>
+                                <div onClick={() => handleFavourite(project._id, project.favourited)} className={`relative group/icon flex flex-col items-center justify-center w-12 h-12 rounded-xl border-2 border-gray-600 hover:border-[#FF8162] transition ${project.favourited ? "text-[#FEB57F]" : ""}`}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-bookmark-plus-icon lucide-bookmark-plus"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/><line x1="12" x2="12" y1="7" y2="13"/><line x1="15" x2="9" y1="10" y2="10"/></svg>
                                     <span className="absolute bottom-[120%] whitespace-nowrap text-xs font-bold text-black bg-[#D69B6F] px-2 py-1 rounded-md opacity-0 group-hover/icon:opacity-100 transition cursor-pointer">
                                         Favorite project 
@@ -200,8 +221,13 @@ function ListingContent() {
                     Explore Projects
                 </div>
                 <div className="divide-y-[0.1px] divide-gray-600">
-                    {allListings.map(project => (
-                        <div key={project._id} className="group relative flex flex-row items-start gap-4 rounded-xl p-4 transition-all duration-300 cursor-pointer hover:bg-white/5">
+                    {loading ? (
+                        <div className="text-white py-6">Loading...</div>
+                            ) : allListings.length === 0 ? (
+                                <div className="text-white py-6">No projects found.</div>
+                            ) : (
+                        allListings.map(project => (
+                            <div key={project._id} className="group relative flex flex-row items-start gap-4 rounded-xl p-4 transition-all duration-300 cursor-pointer hover:bg-white/5">
                             <div className="w-[48px] h-[48px] rounded-xl bg-gray-600">
                                 {/* Logo Here */}
                             </div>
@@ -252,7 +278,7 @@ function ListingContent() {
                                     <span className="text-xs mt-2 p-1 rounded-sm border border-gray-600 bg-gray-800 text-white flex justify-center">{project.likes}</span>
                                 </div>
                                 <div>
-                                <div className={`relative group/icon flex flex-col items-center justify-center w-12 h-12 rounded-xl border-2 border-gray-600 hover:border-[#FF8162] transition text-[#FEB57F] `}>
+                                <div onClick={() => handleFavourite(project._id, project.favourited)} className={`relative group/icon flex flex-col items-center justify-center w-12 h-12 rounded-xl border-2 border-gray-600 hover:border-[#FF8162] transition ${project.favourited ? "text-[#FEB57F]" : ""}`}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-bookmark-plus-icon lucide-bookmark-plus"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/><line x1="12" x2="12" y1="7" y2="13"/><line x1="15" x2="9" y1="10" y2="10"/></svg>
                                     <span className="absolute bottom-[120%] whitespace-nowrap text-xs font-bold text-black bg-[#D69B6F] px-2 py-1 rounded-md opacity-0 group-hover/icon:opacity-100 transition">
                                         Favorite project 
@@ -262,6 +288,7 @@ function ListingContent() {
                                 </div>
                             </div>
                         </div>
+                        )
                     ))}
                 </div>
             </div>
