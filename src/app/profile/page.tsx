@@ -7,6 +7,13 @@ import { toast } from "react-hot-toast";
 import Back from "@/components/Back";
 import ProfileNavbar from "@/components/ProfileNavbar";
 
+type UpdatePayload = {
+  fullName: string;
+  email: string;
+  github?: string;
+};
+
+
 export default function ProfilePage() {
   const [totalProjects, setTotalProjects] = useState(0);
   const [totalLikes, setTotalLikes] = useState(0);
@@ -91,7 +98,27 @@ export default function ProfilePage() {
       return;
     }
     try {
-      await axios.put("/api/me", { fullName, email, github });
+      const payload: UpdatePayload = { fullName: fullName.trim(), email: email.trim() };
+
+      if (github !== originalGithub) {
+        payload.github = github.trim()
+        .replace(/^(https?:\/\/)?(www\.)?github\.com\/?/i, "")
+        .replace(/^@/, "")
+        .toLowerCase();
+      }
+
+      const res = await axios.put("/api/me", payload, { withCredentials: true });
+
+      const updatedUser = res.data?.user;
+      if (updatedUser) {
+        setFullName(updatedUser.fullName || "");
+        setEmail(updatedUser.email || "");
+        setGithub(updatedUser.github || "");
+        setOriginalFullName(updatedUser.fullName || "");
+        setOriginalEmail(updatedUser.email || "");
+        setOriginalGithub(updatedUser.github || "");
+      }
+
       setIsEditingName(false);
       setIsEditingEmail(false);
       setIsEditingGithub(false);
@@ -239,7 +266,7 @@ export default function ProfilePage() {
                       <span className="text-md font-bold tracking-wider">Github</span>
                     </div>
                     <div className="flex itmes-center justify-center gap-2">
-                      <input value={github} onChange={(e) => setGithub(e.target.value)} type="email" disabled={!isEditingGithub} className={`text-slate-50 h-10 w-full pl-10 focus:outline-none focus:ring-0 rounded-md border border-gray-500 ${ isEditingGithub ? "" : "cursor-not-allowed"}`} placeholder="Add Github username"/>
+                      <input value={github} onChange={(e) => setGithub(e.target.value)} type="text" disabled={!isEditingGithub} className={`text-slate-50 h-10 w-full pl-10 focus:outline-none focus:ring-0 rounded-md border border-gray-500 ${ isEditingGithub ? "" : "cursor-not-allowed"}`} placeholder="Add Github username"/>
                       <svg onClick={() => setIsEditingGithub(true)} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-pencil-icon lucide-pencil cursor-pointer"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
                     </div>
                   </div>

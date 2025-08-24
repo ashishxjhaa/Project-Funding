@@ -48,8 +48,10 @@ export async function PUT(req: Request) {
   try {
     await connectDB();
 
-    const token = req.headers.get("cookie")
-      ?.split("; ")
+    const cookieHeader = req.headers.get("cookie") || "";
+    const token = cookieHeader
+      .split(";")
+      .map((c) => c.trim())
       .find((c) => c.startsWith("token="))
       ?.split("=")[1];
 
@@ -67,11 +69,31 @@ export async function PUT(req: Request) {
     const body = await req.json();
     const { fullName, email, github } = body;
 
+    const updateFields: Record<string, unknown> = {};
+      if (typeof fullName === "string") updateFields.fullName = fullName.trim();
+      if (typeof email === "string") updateFields.email = email.trim();
+      if (github !== undefined) {
+      const sanitizedGithub =
+        typeof github === "string"
+          ? github
+              .trim()
+              .replace(/^(https?:\/\/)?(www\.)?github\.com\/?/i, "")
+              .replace(/^@/, "")
+              .toLowerCase()
+          : github;
+      updateFields.github = sanitizedGithub ?? "";
+    }
+
     const updatedUser = await User.findByIdAndUpdate(
       decoded.userId,
-      { fullName, email, github },
-      { new: true }
+      { $set: updateFields },
+      { new: true, runValidators: true }
     ).select("-password");
+
+    if (!updatedUser) {
+      console.error("User not found for id:", decoded.userId);
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
 
     return NextResponse.json({ user: updatedUser }, { status: 200 });
   } catch (err) {

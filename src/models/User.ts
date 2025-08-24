@@ -20,7 +20,9 @@ const userSchema = new mongoose.Schema({
     github: {
         type: String,
         required: false,
-        default: ""
+        default: "",
+        trim: true,
+        lowercase: true
     },
     createdAt: {
         type: Date,
