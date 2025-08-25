@@ -102,12 +102,19 @@ export default function ProfilePage() {
       return;
     }
 
+    const hasChanged = selectedLanguages.length !== originalLanguages.length || selectedLanguages.some((lang) => !originalLanguages.includes(lang));
+    if (!hasChanged) {
+      toast.error("No changes to update!");
+      return;
+    }
+
     try {
       const res = await axios.put("/api/languages", 
         { languages: selectedLanguages }, 
         { withCredentials: true }
       );
       setSelectedLanguages(res.data.languages);
+      setOriginalLanguages(res.data.languages);
       toast.success("Languages updated!");
     } catch (err) {
       toast.error("Failed to update languages");
