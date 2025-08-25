@@ -12,12 +12,17 @@ interface User {
   email: string;
 }
 
-function ListingNavbar() {
+function ListingNavbar({ search, setSearch, filterTags, setFilterTags }: { search: string; setSearch: (s: string) => void; filterTags: string[]; setFilterTags: (tags: string[]) => void; }) {
     const [openProfile, setOpenProfile] = useState(false)
     const [user, setUser] = useState<User | null>(null);
     const [showRefer, setShowRefer] = useState(false);
+    const tags = ["SaaS", "Productivity", "Healthcare", "AI", "Fintech", "E-commerce"];
+    const [showFilterMenu, setShowFilterMenu] = useState(false);
+
 
     const menuRef = useRef<HTMLDivElement>(null);
+    const filterRef = useRef<HTMLDivElement>(null);
+
 
     useEffect(() => {
         document.addEventListener("mousedown", (event) => {
@@ -31,8 +36,6 @@ function ListingNavbar() {
             document.removeEventListener("mousedown", (event) => {});
         };
     }, []);
-
-
 
     const router = useRouter();
 
@@ -79,6 +82,25 @@ function ListingNavbar() {
         };
     }, [openProfile]);
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+            if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
+                setShowFilterMenu(false);
+            }
+        };
+
+        if (showFilterMenu) {
+            document.addEventListener("click", handleClickOutside);
+            document.addEventListener("touchstart", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+            document.removeEventListener("touchstart", handleClickOutside);
+        };
+    }, [showFilterMenu]);
+
+
 
     return (
         <div className="fixed w-full h-fit z-50 p-4 bg-[#2C2125]/40 backdrop-blur-md border-b border-gray-600">
@@ -93,13 +115,31 @@ function ListingNavbar() {
                 <div className="flex items-center gap-6 flex-1 justify-center min-w-0">
                     <div className="flex items-center gap-3 border-white border-[1.5px] rounded-lg p-2 min-w-0 max-w-[140px] sm:max-w-xs md:max-w-xs">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-search-icon lucide-search text-white ml-2"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
-                        <input type="text" placeholder="Search" className="placeholder-white focus:outline-none w-full sm:w-auto" />
+                        <input value={search} onChange={(e) => setSearch(e.target.value)} type="text" placeholder="Search" className="placeholder-white focus:outline-none w-full sm:w-auto" />
                     </div>
                     <div className="flex items-center gap-4 hover:bg-white/30 rounded-xl px-7 py-2 w-fit cursor-pointer">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-sliders-horizontal-icon lucide-sliders-horizontal"><line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/></svg>
-                        <div className="font-medium tracking-wider text-white text-lg">Filter</div>
+                        <div onClick={() => setShowFilterMenu(!showFilterMenu)} className="font-medium tracking-wider text-white text-lg">Filter</div>
                     </div>
                 </div>
+
+                {showFilterMenu && (
+                    <div className="absolute top-full mt-12 inset-0 flex items-center justify-center z-50">
+                    <div ref={filterRef} className="p-4 bg-[#2C2125] border border-gray-600 rounded-xl flex flex-wrap gap-2">
+                        {tags.map(tag => {
+                            const selected = filterTags.includes(tag);
+                            return (
+                                <button key={tag} onClick={() => setFilterTags( selected ? filterTags.filter(t => t !== tag) : [...filterTags, tag] )} className={`px-3 py-1 rounded-md border cursor-pointer ${selected ? 'bg-[#FF8162] text-black' : 'bg-[#2C2024] text-white'}`}>
+                                    {tag}
+                                </button>
+                            );
+                        })}
+                        <button onClick={() => setFilterTags([])} className="px-3 py-1 bg-red-500 text-white rounded-md cursor-pointer">
+                            Clear
+                        </button>
+                    </div>
+                    </div>
+                )}
 
                 <div ref={menuRef} className="relative flex items-center justify-end flex-none shrink-0">
                     <div onClick={() => setOpenProfile(true)} className="group flex gap-4 items-center hover:bg-[#FEB57F] cursor-pointer rounded-4xl px-2 py-1.5">

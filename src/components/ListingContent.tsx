@@ -18,7 +18,7 @@ type Listing = {
     favourited?: boolean;
 };
 
-function ListingContent() {
+function ListingContent({ search, filterTags }: { search: string; filterTags: string[] }) {
     const [topListings, setTopListings] = useState<Listing[]>([]);
     const [allListings, setAllListings] = useState<Listing[]>([]);
     const [loading, setLoading] = useState(true);
@@ -149,6 +149,11 @@ function ListingContent() {
         }
     };
 
+    const filteredAllListings = allListings.filter(project => {
+        const matchesSearch = project.name.toLowerCase().includes(search.toLowerCase());
+        const matchesTags = filterTags.length === 0 || project.tags.some(tag => filterTags.includes(tag));
+        return matchesSearch && matchesTags;
+    });
 
     if (loading) {
         return <div className="text-white text-center py-10">Loading...</div>;
@@ -252,7 +257,7 @@ function ListingContent() {
                             ) : allListings.length === 0 ? (
                                 <div className="text-white py-6">No projects found.</div>
                             ) : (
-                        allListings.map(project => (
+                        filteredAllListings.map(project => (
                             <div key={project._id} className="group relative flex flex-row items-start gap-4 rounded-xl p-4 transition-all duration-300 cursor-pointer hover:bg-white/5">
                             <div className="w-[48px] h-[48px] rounded-xl bg-gray-600">
                                 {/* Logo Here */}
