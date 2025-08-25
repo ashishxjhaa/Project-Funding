@@ -5,7 +5,6 @@ import Favourite from "@/models/Favourite";
 import Listing from "@/models/Listing";
 import type { Types } from "mongoose";
 
-
 interface ListingLean {
   _id: Types.ObjectId;
   name: string;
@@ -22,22 +21,12 @@ type FavouriteLean = {
 };
 
 function getUserIdFromReq(req: NextRequest): string | null {
-  const cookie = req.headers.get("cookie") || "";
-  const token = cookie
-    .split(";")
-    .map((c) => c.trim())
-    .find((c) => c.startsWith("token="))
-    ?.split("=")[1];
-
+  const token = req.cookies.get("token")?.value;
   if (!token) return null;
 
   try {
-    const payload = jwt.verify(
-      token,
-      process.env.JWT_SECRET as string
-    ) as JwtPayload & { id?: string; _id?: string };
-
-    return payload?.id || payload?._id || null;
+    const payload = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload & { userId: string };
+    return payload.userId || null;
   } catch {
     return null;
   }

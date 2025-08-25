@@ -6,7 +6,8 @@ import { ListingType } from "@/types/listing";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export default function MyListingPage() {
+
+export default function FavoritePage() {
 
   const [items, setItems] = useState<ListingType[]>([]);
   const [loadingFavs, setLoadingFavs] = useState(true);
@@ -14,20 +15,23 @@ export default function MyListingPage() {
   useEffect(() => {
     let mounted = true;
     (async () => {
-    try {
-      const res = await axios.get("/api/favouriteproject", { withCredentials: true });
-      if (mounted) setItems(res.data.listings || []);
-    } finally {
-      if (mounted) setLoadingFavs(false);
-    }
-  })();
-  return () => { mounted = false; };
-}, []);
+      try {
+        const res = await axios.get("/api/favouriteproject", { withCredentials: true });
+        if (mounted) setItems(res.data.listings || []);
+      } finally {
+        if (mounted) setLoadingFavs(false);
+      }
+    })();
+    return () => { mounted = false; };
+  }, []);
 
-const removeFavourite = async (id: string) => {
-  await axios.delete(`/api/favouriteproject?listingId=${id}`, { withCredentials: true });
-  setItems((prev) => prev.filter((p) => String(p._id) !== String(id)));
-};
+  const removeFavourite = async (id: string) => {
+    const previousItems = [...items];
+    setItems((prev) => prev.filter((p) => String(p._id) !== String(id)));
+    
+    await axios.delete(`/api/favouriteproject?listingId=${id}`, { withCredentials: true });
+    setItems((prev) => prev.filter((p) => String(p._id) !== String(id)));
+  };
 
 
 
@@ -42,7 +46,7 @@ const removeFavourite = async (id: string) => {
       <div className="flex justify-center">
       <div className="flex items-center gap-8 rounded-xl bg-[#392E34] px-14 py-4 border border-[#FF8162]">
         <div className="rounded-xl w-[50px] h-[50px] relative flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-copy-icon lucide-copy"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-bookmark-plus-icon lucide-bookmark-plus"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/><line x1="12" x2="12" y1="7" y2="13"/><line x1="15" x2="9" y1="10" y2="10"/></svg>
         </div>
         <div className="flex flex-col">
           <div className="font-semibold text-lg text-[#FF8162] tracking-wider">
@@ -60,10 +64,10 @@ const removeFavourite = async (id: string) => {
           {loadingFavs ? (
             <div className="text-white text-md font-bold py-6">Loading...</div>
           ) : items.length === 0 ? (
-            <div className="text-white py-6">No favourites yet.</div>
+            <div className="text-white py-6 font-bold text-lg">No favourites yet.</div>
           ) : (
             items.map((project) => (
-            <div key={project._id} className="group relative flex flex-row items-start gap-4 rounded-xl p-4 transition-all duration-300 cursor-pointer hover:bg-white/5">
+            <div key={project._id} className="group relative flex flex-row items-start gap-4 rounded-xl p-4 mb-5 transition-all duration-300 cursor-pointer hover:bg-white/5">
               <div className="w-[48px] h-[48px] rounded-xl bg-gray-600">
                 {/* Logo Here */}
               </div>
@@ -87,7 +91,7 @@ const removeFavourite = async (id: string) => {
               <div className="flex items-center gap-3">
 
                 <div onClick={() => removeFavourite(project._id)} className="relative group/icon flex flex-col items-center justify-center w-12 h-12 rounded-xl border-2 border-gray-600 hover:border-[#FF8162] transition text-[#FEB57F]">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-bookmark-plus-icon lucide-bookmark-plus"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/><line x1="12" x2="12" y1="7" y2="13"/><line x1="15" x2="9" y1="10" y2="10"/></svg>
                   <span className="absolute bottom-[120%] whitespace-nowrap text-xs font-bold text-black bg-[#D69B6F] px-2 py-1 rounded-md opacity-0 group-hover/icon:opacity-100 transition">
                     Remove from Favorite
                   </span>

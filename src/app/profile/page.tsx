@@ -38,6 +38,13 @@ export default function ProfilePage() {
   const [originalGithub, setOriginalGithub] = useState("");
   const [isEditingGithub, setIsEditingGithub] = useState(false);
 
+  const [showEmailVerify, setShowEmailVerify] = useState(false);
+  const [verifyPassword, setVerifyPassword] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const [originalLanguages, setOriginalLanguages] = useState<string[]>([]);
+
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -74,6 +81,39 @@ export default function ProfilePage() {
     fetchUser();
   }, []);
 
+
+  useEffect(() => {
+    const fetchLanguages = async () => {
+      try {
+        const res = await axios.get("/api/languages", { withCredentials: true });
+        setSelectedLanguages(res.data.languages);
+        setOriginalLanguages(res.data.languages);
+      } catch (err) {
+        console.error("Failed to fetch languages:", err);
+      }
+    };
+    fetchLanguages();
+  }, []);
+
+  const handleLanguageSubmit = async () => {
+
+    if (originalLanguages.length === 0 && selectedLanguages.length === 0) {
+      toast.error("Please select at least one language");
+      return;
+    }
+
+    try {
+      const res = await axios.put("/api/languages", 
+        { languages: selectedLanguages }, 
+        { withCredentials: true }
+      );
+      setSelectedLanguages(res.data.languages);
+      toast.success("Languages updated!");
+    } catch (err) {
+      toast.error("Failed to update languages");
+    }
+  };
+
   const formattedDate = createdAt
     ? new Date(createdAt).toLocaleDateString("en-US", {
       year: "numeric",
@@ -90,6 +130,20 @@ export default function ProfilePage() {
     }
     return (parts[0][0] + parts[1][0]).toUpperCase();
   }
+
+  const handleEmailVerification = async () => {
+    try {
+      const res = await axios.post("/api/verifypass", { password: verifyPassword }, { withCredentials: true });
+      if (res.data.success) {
+        setIsEditingEmail(true);
+        setShowEmailVerify(false);
+        toast.success("Password verified, now update your email");
+      }
+    } catch {
+      toast.error("Password verification failed");
+    }
+  };
+
 
 
   const handleUpdate = async () => {
@@ -208,7 +262,7 @@ export default function ProfilePage() {
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-code h-5 w-5 text-[#FF8162]"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
                 <span className="text-sm tracking-wider">Languages</span>
               </div>
-              <p className="text-2xl font-bold">0</p>
+              <p className="text-2xl font-bold">{selectedLanguages.length}</p>
               <p className="text-xs mt-2 tracking-wide text-[#FF8162]">Time to learn more! 📚</p>
             </div>
           </div>
@@ -245,7 +299,9 @@ export default function ProfilePage() {
                     </div>
                     <div className="flex items-center justify-center gap-2">
                       <input value={fullName} onChange={(e) => setFullName(e.target.value)} type="text" disabled={!isEditingName} className={`text-slate-50 h-10 w-full pl-10 focus:outline-none focus:ring-0 rounded-md border border-gray-500 ${isEditingName ? "" : "cursor-not-allowed"}`} placeholder="Update full name"/>
-                      <svg onClick={() => setIsEditingName(true)} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-pencil-icon lucide-pencil cursor-pointer"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+                      <div className="p-3 rounded-sm cursor-pointer hover:bg-white/20 mx-6">
+                        <svg onClick={() => setIsEditingName(true)} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-pencil-icon lucide-pencil cursor-pointer"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+                      </div>
                     </div>
                   </div>
 
@@ -256,9 +312,47 @@ export default function ProfilePage() {
                     </div>
                     <div className="flex itmes-center justify-center gap-2">
                       <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" disabled={!isEditingEmail} className={`text-slate-50 h-10 w-full pl-10 focus:outline-none focus:ring-0 rounded-md border border-gray-500 ${isEditingEmail ? "" : "cursor-not-allowed"}`} placeholder="Update email id"/>
-                      <svg onClick={() => setIsEditingEmail(true)} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-pencil-icon lucide-pencil cursor-pointer"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+                      <div className="p-3 rounded-sm cursor-pointer hover:bg-white/20 mx-6">
+                        <svg onClick={() => setShowEmailVerify(true)} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-pencil-icon lucide-pencil cursor-pointer"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+                      </div>
                     </div>
                   </div>
+
+                  {showEmailVerify && (
+                    <div
+                      onClick={() => setShowEmailVerify(false)} className="fixed inset-0 z-50 flex items-center justify-center min-h-screen bg-black/50">
+                        <div onClick={(e) => e.stopPropagation()} className="relative bg-[#FEB57F] rounded-xl p-6 w-[90%] max-w-md shadow-lg">
+                          <div className="flex items-center justify-between mb-4">
+                            <div className="font-semibold text-lg text-black tracking-wide">
+                              Verify Password
+                            </div>
+                            <button onClick={() => setShowEmailVerify(false)} className="p-1 hover:bg-black/10 rounded-full cursor-pointer">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x text-black"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                            </button>
+                          </div>
+
+                          <div className="relative w-full mb-6">
+                            <input type={showPassword ? "text" : "password"} value={verifyPassword} onChange={(e) => setVerifyPassword(e.target.value)} className="w-full text-black bg-white rounded-xl px-4 py-4 mb-6 outline-none" placeholder="Enter password" />
+                            <button type="button" onClick={() => setShowPassword(!showPassword)} className="text-slate-50 absolute inset-y-0 right-0 flex items-center pr-3 pb-5 cursor-pointer">
+                              {showPassword ? (
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye size-7 text-black"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                              ) : (
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-off-icon lucide-eye-off text-black"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></svg>
+                              )}
+                            </button>
+                          </div>
+
+                          <div className="flex justify-end gap-3">
+                            <button onClick={() => setShowEmailVerify(false)} className="px-4 py-2 rounded-md bg-black/10 text-black hover:bg-black/20 cursor-pointer">
+                              Cancel
+                            </button>
+                            <button onClick={handleEmailVerification} className="px-4 py-2 rounded-md bg-black/80 text-white hover:bg-black/90 cursor-pointer">
+                              Verify
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                  )}
 
                   <div className="px-6 pb-7">
                     <div className="flex items-center gap-2 mb-2">
@@ -267,11 +361,13 @@ export default function ProfilePage() {
                     </div>
                     <div className="flex itmes-center justify-center gap-2">
                       <input value={github} onChange={(e) => setGithub(e.target.value)} type="text" disabled={!isEditingGithub} className={`text-slate-50 h-10 w-full pl-10 focus:outline-none focus:ring-0 rounded-md border border-gray-500 ${ isEditingGithub ? "" : "cursor-not-allowed"}`} placeholder="Add Github username"/>
-                      <svg onClick={() => setIsEditingGithub(true)} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-pencil-icon lucide-pencil cursor-pointer"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+                      <div className="p-3 rounded-sm cursor-pointer hover:bg-white/20 mx-6">
+                        <svg onClick={() => setIsEditingGithub(true)} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-pencil-icon lucide-pencil cursor-pointer"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+                      </div>
                     </div>
                   </div>
             
-                  <div className="flex justify-center items-center">
+                  <div className="flex justify-center items-center mr-16">
                     <button onClick={handleUpdate} type="button" className="hover:bg-[#D69B6F] bg-[#FEB57F] font-semibold tracking-wide rounded-md py-2 cursor-pointer text-black w-[85%] mr-10 mb-8">Submit</button>
                   </div>
                 </div>
@@ -292,7 +388,7 @@ export default function ProfilePage() {
                         </button>
                       ))}
                     </div>
-                    <button type="submit" className="hover:bg-[#D69B6F] bg-[#FEB57F] font-semibold tracking-wide rounded-md py-2 cursor-pointer text-black w-full">Submit</button>
+                    <button type="submit" onClick={handleLanguageSubmit} className="hover:bg-[#D69B6F] bg-[#FEB57F] font-semibold tracking-wide rounded-md py-2 cursor-pointer text-black w-full">Submit</button>
                   </div>
                 </div>
               )}

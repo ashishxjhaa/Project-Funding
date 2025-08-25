@@ -22,15 +22,34 @@ function ListingContent() {
     const [topListings, setTopListings] = useState<Listing[]>([]);
     const [allListings, setAllListings] = useState<Listing[]>([]);
     const [loading, setLoading] = useState(true);
-
     const [fundProjectId, setFundProjectId] = useState<string | null>(null);
 
     const fetchListings = useCallback(async () => {
         try {
             setLoading(true);
-            const res = await axios.get("/api/listings/public");
-            setTopListings(res.data.topListings || []);
-            setAllListings(res.data.allListings || []);
+            const listingsRes = await axios.get("/api/listings/public");
+            const top = listingsRes.data.topListings || [];
+            const all = listingsRes.data.allListings || [];
+
+            let favorites: string[] = [];
+            try {
+                const favsRes = await axios.get("/api/favouriteproject", { withCredentials: true });
+                favorites = favsRes.data.listings?.map((item: Listing) => String(item._id)) || [];
+            } catch (err) {
+                console.error("Failed to fetch favorites:", err);
+            }
+
+            const updatedTop = top.map((listing: Listing) => ({
+                ...listing,
+                favourited: favorites.includes(String(listing._id)),
+            }));
+            const updatedAll = all.map((listing: Listing) => ({
+                ...listing,
+                favourited: favorites.includes(String(listing._id)),
+            }));
+            
+            setTopListings(updatedTop);
+            setAllListings(updatedAll);
         } catch (err) {
             console.error(err);
             toast.error("Failed to load listings");
@@ -49,8 +68,8 @@ function ListingContent() {
     };
 
     const handleLike = async (id: string, currentlyLiked?: boolean) => {
-        const topSnap = topListings;
-        const allSnap = allListings;
+        const topSnap = [...topListings];
+        const allSnap = [...allListings];
 
         updateLocalListing(id, (l) => ({
             ...l,
@@ -72,23 +91,30 @@ function ListingContent() {
     };
 
     const handleFavourite = async (id: string, currentlyFavourited?: boolean) => {
-        const topSnap = topListings;
-        const allSnap = allListings;
+        const previousTopListings = [...topListings];
+        const previousAllListings = [...allListings];
 
         updateLocalListing(id, (l) => ({ ...l, favourited: !l.favourited }));
 
         try {
-            if (currentlyFavourited) {
-            await axios.delete(`/api/favouriteproject?listingId=${id}`);
-        } else {
-            await axios.post(`/api/favouriteproject`, { listingId: id });
+            const response = await axios({
+                method: currentlyFavourited ? 'DELETE' : 'POST',
+                url: `/api/favouriteproject${currentlyFavourited ? `?listingId=${id}` : ''}`,
+                data: currentlyFavourited ? {} : { listingId: id },
+                withCredentials: true,
+            });
+
+            if (response.status >= 200 && response.status < 300) {
+                toast.success(currentlyFavourited ? "Removed from favourites" : "Added to Favourite");
+            } else {
+                throw new Error("Unexpected response status");
+            }
+        } catch (err) {
+            setTopListings(previousTopListings);
+            setAllListings(previousAllListings);
+            toast.error("Failed to add. Please try again.");
         }
-    } catch (err) {
-        toast.error("Action failed.");
-        setTopListings(topSnap);
-        setAllListings(allSnap);
-    }
-};
+    };
 
 
     const handleFundSuccess = (amount: number) => {
@@ -204,7 +230,7 @@ function ListingContent() {
                                 <div onClick={() => handleFavourite(project._id, project.favourited)} className={`relative group/icon flex flex-col items-center justify-center w-12 h-12 rounded-xl border-2 border-gray-600 hover:border-[#FF8162] transition ${project.favourited ? "text-[#FEB57F]" : ""}`}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-bookmark-plus-icon lucide-bookmark-plus"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/><line x1="12" x2="12" y1="7" y2="13"/><line x1="15" x2="9" y1="10" y2="10"/></svg>
                                     <span className="absolute bottom-[120%] whitespace-nowrap text-xs font-bold text-black bg-[#D69B6F] px-2 py-1 rounded-md opacity-0 group-hover/icon:opacity-100 transition cursor-pointer">
-                                        Favorite project 
+                                        Favourite project 
                                     </span>
                                 </div>
                                 <div className="h-8 flex justify-center"></div>
