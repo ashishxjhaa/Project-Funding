@@ -171,7 +171,7 @@ function ListingContent({ search, filterTags }: { search: string; filterTags: st
                 />
             )}
 
-            <div className="rounded-xl bg-[#392E34] p-5 pb-0 border border-gray-600">
+            <div className="rounded-xl bg-[#392E34] p-5 border border-gray-600">
                 <div className="font-bold tracking-wide text-xl">
                     {`This Week's Top Projects`}
                 </div>
