@@ -59,7 +59,7 @@ export default function FavoritePage() {
       </div>
     </div>
 
-      <div className="rounded-xl bg-[#392E34] p-5 pb-0 border border-gray-600">
+      <div className="rounded-xl bg-[#392E34] p-5 pb-2 border border-gray-600">
         <div className="divide-y-[0.1px] divide-gray-600">
           {loadingFavs ? (
             <div className="text-white text-md font-bold py-6">Loading...</div>
