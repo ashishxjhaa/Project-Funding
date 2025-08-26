@@ -18,7 +18,7 @@ export default function TopLoader() {
   return (
     <LoadingBar
       color="#3b82f6"
-      height={6}
+      height={4}
       shadow={true}
       ref={ref}
       style={{ zIndex: 9999 }}

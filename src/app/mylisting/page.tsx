@@ -115,7 +115,7 @@ export default function MyListingPage() {
         </div>
       </div>
 
-      <div className="rounded-xl bg-[#392E34] p-5 border border-gray-600">
+      <div className="rounded-xl bg-[#392E34] p-5 mx-20 border border-gray-600">
         <div className="divide-y-[0.1px] divide-gray-600">
           {loading ? (
             <div className="text-center text-white py-10 text-xl font-semibold">Loading...</div>
