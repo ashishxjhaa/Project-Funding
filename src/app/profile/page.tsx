@@ -314,8 +314,8 @@ export default function ProfilePage() {
                     </div>
                     <div className="flex items-center justify-center gap-2">
                       <input ref={nameRef} value={fullName} onChange={(e) => setFullName(e.target.value)} type="text" disabled={!isEditingName} className={`text-slate-50 h-10 w-full pl-10 focus:outline-none focus:ring-0 rounded-md border border-gray-500 ${isEditingName ? "" : "cursor-not-allowed"}`} placeholder="Update full name" />
-                      <div className="p-3 rounded-sm cursor-pointer hover:bg-white/20 mx-6">
-                        <svg onClick={() => { setIsEditingName(true); setTimeout(() => nameRef.current?.focus(), 0); }}  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-pencil-icon lucide-pencil cursor-pointer"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+                      <div onClick={() => { setIsEditingName(true); setTimeout(() => nameRef.current?.focus(), 0); }} className="p-3 rounded-sm cursor-pointer hover:bg-white/20 mx-6">
+                        <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-pencil-icon lucide-pencil cursor-pointer"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
                       </div>
                     </div>
                   </div>
@@ -327,8 +327,8 @@ export default function ProfilePage() {
                     </div>
                     <div className="flex itmes-center justify-center gap-2">
                       <input ref={emailRef} value={email} onChange={(e) => setEmail(e.target.value)} type="email" disabled={!isEditingEmail} className={`text-slate-50 h-10 w-full pl-10 focus:outline-none focus:ring-0 rounded-md border border-gray-500 ${isEditingEmail ? "" : "cursor-not-allowed"}`} placeholder="Update email id"/>
-                      <div className="p-3 rounded-sm cursor-pointer hover:bg-white/20 mx-6">
-                        <svg onClick={() => setShowEmailVerify(true)} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-pencil-icon lucide-pencil cursor-pointer"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+                      <div onClick={() => setShowEmailVerify(true)} className="p-3 rounded-sm cursor-pointer hover:bg-white/20 mx-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-pencil-icon lucide-pencil cursor-pointer"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
                       </div>
                     </div>
                   </div>
@@ -376,8 +376,8 @@ export default function ProfilePage() {
                     </div>
                     <div className="flex itmes-center justify-center gap-2">
                       <input ref={githubRef} value={github} onChange={(e) => setGithub(e.target.value)} type="text" disabled={!isEditingGithub} className={`text-slate-50 h-10 w-full pl-10 focus:outline-none focus:ring-0 rounded-md border border-gray-500 ${ isEditingGithub ? "" : "cursor-not-allowed"}`} placeholder="Add Github username"/>
-                      <div className="p-3 rounded-sm cursor-pointer hover:bg-white/20 mx-6">
-                        <svg onClick={() => { setIsEditingGithub(true); setTimeout(() => githubRef.current?.focus(), 0); }} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-pencil-icon lucide-pencil cursor-pointer"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+                      <div onClick={() => { setIsEditingGithub(true); setTimeout(() => githubRef.current?.focus(), 0); }} className="p-3 rounded-sm cursor-pointer hover:bg-white/20 mx-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-pencil-icon lucide-pencil cursor-pointer"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
                       </div>
                     </div>
                   </div>
