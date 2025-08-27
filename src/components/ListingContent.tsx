@@ -172,7 +172,7 @@ function ListingContent({ search, filterTags }: { search: string; filterTags: st
             )}
 
             <div className="rounded-xl bg-[#392E34] p-5 border border-gray-600">
-                <div className="font-bold tracking-wide text-xl text-[#FF8162]">
+                <div className="font-medium lg:font-bold tracking-wide text-md lg:text-lg text-[#FF8162]">
                     {`This Week's Top Projects`}
                 </div>
                 <div className="divide-y-[0.1px] divide-gray-600">
@@ -181,7 +181,7 @@ function ListingContent({ search, filterTags }: { search: string; filterTags: st
                     ) : (
                       topListings.slice(0, 3).map((project) => (
                         <div key={project._id} className="group relative flex flex-row items-start gap-4 rounded-xl p-4 transition-all duration-300 cursor-pointer hover:bg-white/5">
-                            <div className="w-[48px] h-[48px] rounded-xl bg-gray-600">
+                            <div className="hidden sm:flex w-[48px] h-[48px] rounded-xl bg-gray-600">
                                 {/* Logo Here */}
                             </div>
                             <div className="flex flex-1 flex-col">
@@ -192,7 +192,7 @@ function ListingContent({ search, filterTags }: { search: string; filterTags: st
                                 <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                                     {project.description}
                                 </div>
-                                <div className="mt-2 flex flex-row flex-wrap items-center gap-2">
+                                <div className="mt-2 hidden sm:flex flex-row flex-wrap items-center gap-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-tags-icon lucide-tags"><path d="M13.172 2a2 2 0 0 1 1.414.586l6.71 6.71a2.4 2.4 0 0 1 0 3.408l-4.592 4.592a2.4 2.4 0 0 1-3.408 0l-6.71-6.71A2 2 0 0 1 6 9.172V3a1 1 0 0 1 1-1z"/><path d="M2 7v6.172a2 2 0 0 0 .586 1.414l6.71 6.71a2.4 2.4 0 0 0 3.191.193"/><circle cx="10.5" cy="6.5" r=".5" fill="currentColor"/></svg>
                                     {project.tags.map((t, i) =>
                                         <div key={i} className="text-xs px-2 py-1 rounded-full bg-gray-200 dark:bg-gray-700 hover:underline">
@@ -203,7 +203,7 @@ function ListingContent({ search, filterTags }: { search: string; filterTags: st
                             </div>
 
 
-                            <div className="flex items-center gap-3">
+                            <div className="grid grid-cols-2 md:flex md:items-center justify-between gap-3 sm:overflow-hidden">
                                 <div>
                                     <div onClick={() => setFundProjectId(project._id)} className="relative group/icon flex flex-col items-center justify-center w-12 h-12 rounded-xl border-2 border-gray-600 hover:border-[#FF8162] transition">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-indian-rupee-icon lucide-indian-rupee"><path d="M6 3h12"/><path d="M6 8h12"/><path d="m6 13 8.5 8"/><path d="M6 13h3"/><path d="M9 13c6.667 0 6.667-10 0-10"/></svg>
@@ -259,7 +259,7 @@ function ListingContent({ search, filterTags }: { search: string; filterTags: st
                             ) : (
                         filteredAllListings.map(project => (
                             <div key={project._id} className="group relative flex flex-row items-start gap-4 rounded-xl p-4 transition-all duration-300 cursor-pointer hover:bg-white/5">
-                            <div className="w-[48px] h-[48px] rounded-xl bg-gray-600">
+                            <div className="hidden sm:flex w-[48px] h-[48px] rounded-xl bg-gray-600">
                                 {/* Logo Here */}
                             </div>
                             <div className="flex flex-1 flex-col">
@@ -270,7 +270,7 @@ function ListingContent({ search, filterTags }: { search: string; filterTags: st
                                 <div className="text-sm text-gray-500 mt-1">
                                     {project.description}
                                 </div>
-                                <div className="mt-2 flex flex-row flex-wrap items-center gap-2">
+                                <div className="mt-2 hidden sm:flex flex-row flex-wrap items-center gap-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-tags-icon lucide-tags"><path d="M13.172 2a2 2 0 0 1 1.414.586l6.71 6.71a2.4 2.4 0 0 1 0 3.408l-4.592 4.592a2.4 2.4 0 0 1-3.408 0l-6.71-6.71A2 2 0 0 1 6 9.172V3a1 1 0 0 1 1-1z"/><path d="M2 7v6.172a2 2 0 0 0 .586 1.414l6.71 6.71a2.4 2.4 0 0 0 3.191.193"/><circle cx="10.5" cy="6.5" r=".5" fill="currentColor"/></svg>
                                     {project.tags.map((t,i) =>
                                         <div key={i} className="text-xs px-2 py-1 rounded-full bg-gray-200 dark:bg-gray-700 hover:underline">
@@ -280,7 +280,7 @@ function ListingContent({ search, filterTags }: { search: string; filterTags: st
                                 </div>
                             </div>
 
-                            <div className="flex items-center gap-3">
+                            <div className="grid grid-cols-2 md:flex md:items-center justify-between gap-3 sm:overflow-hidden">
                                 <div>
                                     <div onClick={() => setFundProjectId(project._id)} className="relative group/icon flex flex-col items-center justify-center w-12 h-12 rounded-xl border-2 border-gray-600 hover:border-[#FF8162] transition">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-indian-rupee-icon lucide-indian-rupee"><path d="M6 3h12"/><path d="M6 8h12"/><path d="m6 13 8.5 8"/><path d="M6 13h3"/><path d="M9 13c6.667 0 6.667-10 0-10"/></svg>

@@ -144,7 +144,7 @@ function ListingNavbar({ search, setSearch, filterTags, setFilterTags }: { searc
                 <div ref={menuRef} className="relative flex items-center justify-end flex-none">
                     <div onClick={() => setOpenProfile(true)} className="group flex items-center gap-2 sm:gap-4 max-w-full sm:max-w-none overflow-hidden hover:bg-[#FEB57F] cursor-pointer rounded-4xl px-2 py-1.5">
                         <div className="w-10 h-10 bg-gray-600 flex items-center justify-center font-bold text-xl rounded-full shrink-0 hover:text-white">{user?.fullName?.[0]}</div>
-                        <div className="hidden sm:block text-white font-medium group-hover:text-black">{user?.fullName}
+                        <div className="hidden md:block text-white font-medium group-hover:text-black">{user?.fullName}
                             <div className="text-slate-300 font-normal text-sm group-hover:text-black tracking-wide truncate">{user?.email}</div>
                         </div>
                         <div>
