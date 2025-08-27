@@ -117,9 +117,9 @@ function ListingNavbar({ search, setSearch, filterTags, setFilterTags }: { searc
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-search-icon lucide-search text-white ml-2"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
                         <input value={search} onChange={(e) => setSearch(e.target.value)} type="text" placeholder="Search" className="placeholder-white focus:outline-none w-full sm:w-auto" />
                     </div>
-                    <div className="flex items-center gap-4 hover:bg-white/30 rounded-xl px-7 py-2 w-fit cursor-pointer">
+                    <div onClick={() => setShowFilterMenu(!showFilterMenu)} className="flex items-center gap-4 hover:bg-white/30 rounded-xl px-7 py-2 w-fit cursor-pointer">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-sliders-horizontal-icon lucide-sliders-horizontal"><line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/></svg>
-                        <div onClick={() => setShowFilterMenu(!showFilterMenu)} className="font-medium tracking-wider text-white text-lg">Filter</div>
+                        <div className="font-medium tracking-wider text-white text-lg">Filter</div>
                     </div>
                 </div>
 

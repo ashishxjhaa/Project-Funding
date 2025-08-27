@@ -156,7 +156,7 @@ function ListingContent({ search, filterTags }: { search: string; filterTags: st
     });
 
     if (loading) {
-        return <div className="text-white text-center py-10">Loading...</div>;
+        return <div className="text-white font-bold text-lg text-center py-10">Loading...</div>;
     }
 
 
