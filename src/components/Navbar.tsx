@@ -28,7 +28,7 @@ function Navbar() {
         <div className="flex justify-between items-center p-4 lg:p-8 h-18">
             <div className="h-20 flex justify-between items-center cursor-pointer"> 
                 <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-indian-rupee-icon lucide-indian-rupee md:min-w-10 md:min-h-10 text-[#FF8162]"><path d="M6 3h12"/><path d="M6 8h12"/><path d="m6 13 8.5 8"/><path d="M6 13h3"/><path d="M9 13c6.667 0 6.667-10 0-10"/></svg>
-                <div className={`ml-2 text-3xl text-slate-100 font-medium transition-all duration-900 ease-in-out ${isScrolled ? "lg:opacity-0 lg:w-0 lg:overflow-hidden" : "opacity-100 w-auto"}`}>ProjectFunding</div>
+                <div className={`ml-2 text-3xl text-slate-100 font-medium transition-all duration-900 ease-in-out ${isScrolled ? "lg:opacity-0 lg:w-0 text-sm lg:overflow-hidden" : "opacity-100 w-auto"}`}>ProjectFunding</div>
             </div>
             <button className="lg:hidden text-slate-200 hover:text-slate-50 cursor-pointer" onClick={toggleMenu}>
                 {isMenuOpen ? (

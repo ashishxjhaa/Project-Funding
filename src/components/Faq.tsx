@@ -46,7 +46,7 @@ export default function Faq() {
   return (
     <div className="w-full pt-16 pb-24 flex flex-col justify-center items-center gap-10 max-md:gap-5 max-md:py-5">
       {/* Heading */}
-      <h2 className="text-6xl max-md:text-3xl font-bold tracking-tight bg-gradient-to-b from-green-400 to-green-500 bg-clip-text text-transparent pb-1">
+      <h2 className="text-6xl max-md:text-3xl font-bold tracking-tight bg-gradient-to-b from-orange-400 to-orange-500 bg-clip-text text-transparent pb-1">
         FAQs
       </h2>
 

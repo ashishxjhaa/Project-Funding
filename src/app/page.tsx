@@ -7,14 +7,14 @@ function LandingPage() {
   return (
     <div className='bg-neutral-800 min-h-screen w-full'>
       <Navbar />
-      <div className='mt-42'>
-        <Image src="/background.svg" alt="hero-image" className="h-10 md:h-15 object-cover w-full" width={10} height={10}/>
-        <Image src="/background.svg" alt="hero-image" className="rotate-180 h-10 md:h-15 object-cover w-full" width={10} height={10}/>
+      <div className='pt-42'>
+        <Image src="/background.svg" alt="hero-image" className="h-10 md:h-10 object-cover w-full" width={10} height={10}/>
+        <Image src="/background.svg" alt="hero-image" className="rotate-180 h-10 md:h-10 object-cover w-full" width={10} height={10}/>
       </div>
       <Hero />
       <div className='mt-18'>
-        <Image src="/background.svg" alt="hero-image" className="h-10 md:h-15 object-cover w-full" width={10} height={10}/>
-        <Image src="/background.svg" alt="hero-image" className="rotate-180 h-10 md:h-15 object-cover w-full" width={10} height={10}/>
+        <Image src="/background.svg" alt="hero-image" className="h-10 md:h-10 object-cover w-full" width={10} height={10}/>
+        <Image src="/background.svg" alt="hero-image" className="rotate-180 h-10 md:h-10 object-cover w-full" width={10} height={10}/>
       </div>
       <Footer />
     </div>
