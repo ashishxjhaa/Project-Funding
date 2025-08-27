@@ -58,7 +58,7 @@ function Signup() {
   return (
     <div className="grid min-h-screen lg:grid-cols-1 bg-neutral-900">
       <Back />
-      <div className="flex flex-col items-center justify-center sm:p-12">
+      <div className="flex flex-col items-center justify-center py-6 px-10 sm:p-12">
         <div className="w-full max-w-md">
 
           <div className="mb-8 text-center">
