@@ -180,7 +180,7 @@ function ListingContent({ search, filterTags }: { search: string; filterTags: st
                         <div className="text-white py-6">No top projects yet.</div>
                     ) : (
                       topListings.slice(0, 3).map((project) => (
-                        <div key={project._id} className="group relative flex flex-row items-start gap-4 rounded-xl p-4 transition-all duration-300 cursor-pointer hover:bg-white/5">
+                        <div key={project._id} className="group relative flex flex-col sm:flex-row items-start gap-4 rounded-xl sm:p-4 transition-all duration-300 cursor-pointer hover:bg-white/5">
                             <div className="hidden sm:flex w-[48px] h-[48px] rounded-xl bg-gray-600">
                                 {/* Logo Here */}
                             </div>
