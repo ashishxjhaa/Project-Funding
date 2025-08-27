@@ -172,14 +172,14 @@ function ListingContent({ search, filterTags }: { search: string; filterTags: st
             )}
 
             <div className="rounded-xl bg-[#392E34] p-5 border border-gray-600">
-                <div className="font-bold tracking-wide text-xl">
+                <div className="font-bold tracking-wide text-xl text-[#FF8162]">
                     {`This Week's Top Projects`}
                 </div>
                 <div className="divide-y-[0.1px] divide-gray-600">
                     {topListings.length === 0 ? (
                         <div className="text-white py-6">No top projects yet.</div>
                     ) : (
-                      topListings.map((project) => (
+                      topListings.slice(0, 3).map((project) => (
                         <div key={project._id} className="group relative flex flex-row items-start gap-4 rounded-xl p-4 transition-all duration-300 cursor-pointer hover:bg-white/5">
                             <div className="w-[48px] h-[48px] rounded-xl bg-gray-600">
                                 {/* Logo Here */}
@@ -248,8 +248,8 @@ function ListingContent({ search, filterTags }: { search: string; filterTags: st
             </div>
 
             <div className="rounded-xl bg-[#392E34] p-5 border border-gray-600">
-                <div className="font-bold tracking-wide text-xl">
-                    Explore Projects
+                <div className="font-bold text-[#FF8162] tracking-wide text-xl">
+                    Explore All Projects
                 </div>
                 <div className="divide-y-[0.1px] divide-gray-600">
                     {loading ? (
