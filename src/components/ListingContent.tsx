@@ -161,7 +161,7 @@ function ListingContent({ search, filterTags }: { search: string; filterTags: st
 
 
     return (
-        <div className="w-full px-25 pt-6 space-y-15 pb-20">
+        <div className="w-full px-8 sm:px-25 pt-6 space-y-15 pb-20">
 
             {fundProjectId && (
                 <FundMoney
@@ -180,7 +180,7 @@ function ListingContent({ search, filterTags }: { search: string; filterTags: st
                         <div className="text-white py-6">No top projects yet.</div>
                     ) : (
                       topListings.slice(0, 3).map((project) => (
-                        <div key={project._id} className="group relative flex flex-col sm:flex-row items-start gap-4 rounded-xl sm:p-4 transition-all duration-300 cursor-pointer hover:bg-white/5">
+                        <div key={project._id} className="group relative pb-3 sm:pb-6 flex flex-col sm:flex-row items-start gap-4 rounded-xl sm:p-4 transition-all duration-300 cursor-pointer hover:bg-white/5">
                             <div className="hidden sm:flex w-[48px] h-[48px] rounded-xl bg-gray-600">
                                 {/* Logo Here */}
                             </div>
@@ -248,7 +248,7 @@ function ListingContent({ search, filterTags }: { search: string; filterTags: st
             </div>
 
             <div className="rounded-xl bg-[#392E34] p-5 border border-gray-600">
-                <div className="font-bold text-[#FF8162] tracking-wide text-xl">
+                <div className="font-medium lg:font-bold tracking-wide text-md lg:text-lg text-[#FF8162]">
                     Explore All Projects
                 </div>
                 <div className="divide-y-[0.1px] divide-gray-600">
@@ -258,7 +258,7 @@ function ListingContent({ search, filterTags }: { search: string; filterTags: st
                                 <div className="text-white py-6">No projects found.</div>
                             ) : (
                         filteredAllListings.map(project => (
-                            <div key={project._id} className="group relative flex flex-row items-start gap-4 rounded-xl p-4 transition-all duration-300 cursor-pointer hover:bg-white/5">
+                            <div key={project._id} className="group relative pb-3 sm:pb-6 flex flex-col sm:flex-row items-start gap-4 rounded-xl sm:p-4 transition-all duration-300 cursor-pointer hover:bg-white/5">
                             <div className="hidden sm:flex w-[48px] h-[48px] rounded-xl bg-gray-600">
                                 {/* Logo Here */}
                             </div>
