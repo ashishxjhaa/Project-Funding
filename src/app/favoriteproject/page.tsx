@@ -41,17 +41,17 @@ export default function FavoritePage() {
       <div className="pt-30 pr-10 flex justify-between">
         <Back />
       </div>
-    <div className="w-full px-25 py-10 space-y-15">
 
+    <div className="w-full px-8 sm:px-25 py-10 space-y-15">
       <div className="flex justify-center">
       <div className="flex items-center gap-8 rounded-xl bg-[#392E34] px-14 py-4 border border-[#FF8162]">
-        <div className="rounded-xl w-[50px] h-[50px] relative flex items-center justify-center">
+        <div className="hidden md:rounded-xl w-[50px] h-[50px] relative flex items-center justify-center">
           <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-bookmark-plus-icon lucide-bookmark-plus"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/><line x1="12" x2="12" y1="7" y2="13"/><line x1="15" x2="9" y1="10" y2="10"/></svg>
         </div>
         <div className="flex flex-col">
-          <div className="font-semibold text-lg text-[#FF8162] tracking-wider">
+          <div className="font-medium md:font-semibold text-[#FF8162] tracking-wider text-xs sm:text-sm md:text-md sm:text-lg">
             Your Favourite Project
-          <div className="flex flex-row gap-1 text-lg font-normal tracking-wider text-white">
+          <div className="hidden lg:flex flex-row gap-1 text-lg font-normal tracking-wider text-white">
             Explore more project and save them.
           </div>
         </div>
@@ -79,7 +79,7 @@ export default function FavoritePage() {
                 <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                   {project.description}
                 </div>
-                <div className="mt-2 flex flex-row flex-wrap items-center gap-2">
+                <div className="hidden sm:mt-2 flex flex-row flex-wrap items-center gap-2">
                   <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-tags-icon lucide-tags"><path d="M13.172 2a2 2 0 0 1 1.414.586l6.71 6.71a2.4 2.4 0 0 1 0 3.408l-4.592 4.592a2.4 2.4 0 0 1-3.408 0l-6.71-6.71A2 2 0 0 1 6 9.172V3a1 1 0 0 1 1-1z"/><path d="M2 7v6.172a2 2 0 0 0 .586 1.414l6.71 6.71a2.4 2.4 0 0 0 3.191.193"/><circle cx="10.5" cy="6.5" r=".5" fill="currentColor"/></svg>
                   {project.tags.map((t, i) => (
                   <div key={i} className="text-xs px-2 py-1 rounded-full bg-gray-200 dark:bg-gray-700 hover:underline">

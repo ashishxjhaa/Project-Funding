@@ -63,7 +63,7 @@ export default function MyListingPage() {
   };
 
   return (
-    <div className="bg-[#2C2024] min-h-screen">
+    <div className="bg-[#2C2024] min-h-screen pb-12 sm:pb-20">
       <ProfileNavbar />
 
       <div className="pt-30 pr-10 flex justify-between">

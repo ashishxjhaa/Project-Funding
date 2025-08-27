@@ -161,7 +161,7 @@ function ListingContent({ search, filterTags }: { search: string; filterTags: st
 
 
     return (
-        <div className="w-full px-8 sm:px-25 pt-6 space-y-15 pb-20">
+        <div className="w-full px-8 sm:px-25 pt-6 space-y-15 pb-12 sm:pb-20">
 
             {fundProjectId && (
                 <FundMoney
