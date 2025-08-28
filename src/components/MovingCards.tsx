@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import Marquee from "react-fast-marquee";
 
 const projects = [
   { id: 1, title: "Intelligent Customer Support Chatbot", techStack: "(AI/LLM-based)", owner: "Aarav Mehta" },
@@ -21,13 +21,13 @@ const projects = [
 ];
 
 export default function MovingCards() {
-  const [paused, setPaused] = useState(false);
 
   return (
-    <div className="relative overflow-hidden w-full h-[400px] bg-black flex items-center">
-      <div className={`flex gap-6 animate-scroll ${paused ? "pause cursor-pointer" : ""}`} onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
-        {[...projects, ...projects].map((p, index) => (
-          <div key={index} className="w-52 sm:w-60 md:w-65 lg:w-65 h-40 sm:h-44 md:h-45 lg:h-45 bg-gray-500/20 border border-gray-600 rounded-md p-4 flex flex-col justify-between text-white hover:scale-110 hover:-translate-y-2 transition-transform duration-300">
+    <div className="relative overflow-hidden w-full h-[300px] bg-black flex items-center">
+      <Marquee pauseOnHover autoFill>
+        {projects.map((p, index) => (
+          <div key={index} className="mx-3">
+          <div className="w-52 sm:w-60 md:w-65 lg:w-65 h-40 sm:h-44 md:h-45 lg:h-45 bg-gray-500/20 border border-gray-600 rounded-md p-4 flex flex-col justify-between text-white hover:scale-90 hover:-translate-y-2 transition-transform duration-300 cursor-pointer">
             <h3 className="text-md font-semibold">{p.title}</h3>
             <div className="text-[#FF8162] font-bold">{p.techStack}</div>
             <div className="flex items-center gap-2">
@@ -35,27 +35,9 @@ export default function MovingCards() {
               <span className="text-sm">{p.owner}</span>
             </div>
           </div>
+          </div>
         ))}
-      </div>
-
-      <style jsx>{`
-        .animate-scroll {
-          display: flex;
-          width: max-content;
-          animation: scroll 80s linear infinite;
-        }
-        .pause {
-          animation-play-state: paused;
-        }
-        @keyframes scroll {
-          0% {
-            transform: translateX(0%);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
-        }
-      `}</style>
+        </Marquee>
     </div>
   );
 }
